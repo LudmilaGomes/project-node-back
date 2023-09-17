@@ -1,7 +1,5 @@
 # Project | Biblioteca Virtual
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## About the Project
 
 <p>With the goal of learning ReactJS and practicing the use of NodeJS, I decided to put the project idea into practice using these technologies.</p>
