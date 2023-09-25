@@ -33,7 +33,8 @@ export class CreateTableAutor1695597668928 implements MigrationInterface
 					isNullable: false,
 				}
 			]
-		})
+		});
+    await queryRunner.createTable(table, true);
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> 

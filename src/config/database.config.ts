@@ -1,17 +1,15 @@
 import { DataSource } from 'typeorm';
-import enviromentConfig from "./enviroment.config";
-import ormconfig from '../../ormconfig';
 
 const connectDB =  new DataSource({
   type: "postgres",
-  host: ormconfig.host,
-  port: ormconfig.port,
-  username: ormconfig.username,
-  password: ormconfig.password,
-  database: ormconfig.database,
+  port: 5432,
+  host: "localhost",
+  username: "postgres",
+  password: "caixapandora",
+  database: "projetonode",
   logging: false,
-  entities: ormconfig.entities,
-  migrations: ormconfig.migrations,
+  entities: ['src/models/**/*.ts'],
+  migrations: ['src/database/migrations/**/*.ts']
 })
 
 connectDB.initialize()
