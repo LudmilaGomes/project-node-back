@@ -1,10 +1,7 @@
-import express from "express";
-import cors from "cors";
+import express from "express"; // importa framework Express
 
+// criação de instância de aplicativo (app); nela, configuramos routes e middleware
 const app = express();
-app.use(express.json());
+// 'app.ts' criado para configurações posteriores...
 
-app.use(cors());
-app.use(express.static("temp"));
-
-export default app;
+export default app; // exportamos
