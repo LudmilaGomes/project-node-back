@@ -12,12 +12,17 @@ class EditoraService
     
     try 
     {
+      // verifica se autor já está cadastrado no banco de dados
+      const verif_edit = await editoraRepo.findOne(editora);
+      if (verif_edit) // se autor existir, então envia exceção
+        throw new Error('Editora já cadastrada!');
+
       const editoraDb: any = await editoraRepo.save(editora);
 
       if (editoraDb)
         return editoraDb;
       else
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!');
     } 
     catch (e: any) 
     {
@@ -31,11 +36,11 @@ class EditoraService
     const editoraRepo: EditoraRepository = connection.getCustomRepository(EditoraRepository);
     try 
     {
-      const editoraes = await editoraRepo.find();
-      if (editoraes)
-        return editoraes;
+      const editoras = await editoraRepo.find();
+      if (editoras)
+        return editoras;
       else
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!');
     } 
     catch (e: any) 
     {
@@ -53,7 +58,7 @@ class EditoraService
       if (editora_encontrado) 
         return editora_encontrado; // retorna o editora encontrado
       else 
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!'); //!
     } 
     catch (e: any) 
     {
@@ -69,7 +74,7 @@ class EditoraService
     {
       const getEditora: any = await editoraRepo.findOne(id);
       if (!getEditora) 
-        throw new Error(''); //!
+        throw new Error('Editora não encontrada!'); //!
 
       // atualiza o editora em questão com os dados enviados (não é obrigatório o envio de todos os dados)
       const editoraDb: any = await editoraRepo.update(
@@ -86,7 +91,7 @@ class EditoraService
       if (editoraDb) 
         return editoraDb;
       else
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!'); //!
     } 
     catch (e: any) 
     {
@@ -103,14 +108,13 @@ class EditoraService
     try 
     {
       const verifica_id = await editoraRepo.findOne({ id });
-
       if (!verifica_id) 
-        throw new Error(''); //!
+        throw new Error('Editora não encontrada!'); //!
       
       const deleta_editora = await editoraRepo.delete(editora);
 
       if (!deleta_editora) 
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!'); //!
 
       return deleta_editora;
     } 
@@ -133,7 +137,7 @@ class EditoraService
         .where('editora.nome = :nome', { nome: nome_editora })
         .getOne();
       if(!busca_editora)
-        throw new Error('');
+        throw new Error('Editora não encontrada!');
 
       return busca_editora;
     } 

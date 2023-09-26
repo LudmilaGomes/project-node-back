@@ -13,7 +13,7 @@ class EditoraController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '' || e.message == '')
+      if (e.message == 'Operação não pode ser realizada!' || e.message == 'Editora já cadastrada!')
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -29,7 +29,7 @@ class EditoraController
     } 
     catch (e: any) 
     {
-      if (e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!') 
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -46,7 +46,7 @@ class EditoraController
     } 
     catch (e: any) 
     {
-      if (e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!') 
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -64,7 +64,7 @@ class EditoraController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!' || e.message == 'Editora não encontrada!') 
         return response.status(409).json(e.message);
     
       return response.status(500).json(e.message);
@@ -81,7 +81,7 @@ class EditoraController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!' || e.message == 'Editora não encontrada!') 
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -98,7 +98,7 @@ class EditoraController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '' || e.message == '')
+      if (e.message == 'Editora não encontrada!')
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
