@@ -23,15 +23,15 @@ class LivroService
         .where('autor.nome = :nome', { nome: nome_autor })
         .getOne();
       if(!verifica_autor)
-        throw new Error('');
+        throw new Error('Autor não cadastrado!');
 
-      // verificar se autor existe por nome_autor
+      // verificar se editora existe por nome_editora
       const verifica_editora: any = await editoraRepo
         .createQueryBuilder('editora')
         .where('editora.nome = :nome', { nome: nome_editora })
         .getOne();
       if(!verifica_editora)
-        throw new Error('');
+        throw new Error('Editora não cadastrada!');
       
       // salvar ids de autor e editora nas variáveis: cod_autor, cod_editora
       const cod_editora = verifica_autor.id;
@@ -43,7 +43,7 @@ class LivroService
       if (livroDb)
         return livroDb;
       else
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!');
     } 
     catch (e: any) 
     {
@@ -55,13 +55,14 @@ class LivroService
   {
     const connection = await getConnection();
     const livroRepo: LivroRepository = connection.getCustomRepository(LivroRepository);
+
     try 
     {
       const livros = await livroRepo.find();
       if (livros)
         return livros;
       else
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!');
     } 
     catch (e: any) 
     {
@@ -73,13 +74,14 @@ class LivroService
   {
     const connection = await getConnection();
     const livroRepo: LivroRepository = connection.getCustomRepository(LivroRepository);
+
     try 
     {
       const livro_encontrado = await livroRepo.findOne({ id });
       if (livro_encontrado) 
         return livro_encontrado; // retorna o livro encontrado
       else 
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!');
     } 
     catch (e: any) 
     {
@@ -98,7 +100,7 @@ class LivroService
     {
       const getLivro: any = await livroRepo.findOne(id);
       if (!getLivro) 
-        throw new Error(''); //!
+        throw new Error('Livro não encontrado!');
       
       // verificar se autor existe por nome_autor
       const verifica_autor: any = await autorRepo
@@ -106,7 +108,7 @@ class LivroService
         .where('autor.nome = :nome', { nome: nome_autor })
         .getOne();
       if(!verifica_autor)
-        throw new Error('');
+        throw new Error('Autor não encontrado!');
 
       // verificar se autor existe por nome_autor
       const verifica_editora: any = await editoraRepo
@@ -114,7 +116,7 @@ class LivroService
         .where('editora.nome = :nome', { nome: nome_editora })
         .getOne();
       if(!verifica_editora)
-        throw new Error('');
+        throw new Error('Editora não encontrada!');
 
       const cod_editora = verifica_autor.id;
       const cod_autor = verifica_autor.id;
@@ -137,7 +139,7 @@ class LivroService
       if (livroDb) 
         return livroDb;
       else
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!');
     } 
     catch (e: any) 
     {
@@ -155,12 +157,12 @@ class LivroService
       const verifica_id = await livroRepo.findOne({ id });
 
       if (!verifica_id) 
-        throw new Error(''); //!
+        throw new Error('Livro não encontrado!');
       
       const deleta_livro = await livroRepo.delete(livro);
 
       if (!deleta_livro) 
-        throw new Error(''); //!
+        throw new Error('Operação não pode ser realizada!');
 
       return deleta_livro;
     } 
@@ -183,7 +185,7 @@ class LivroService
         .where('livro.nome = :nome', { nome: nome_livro })
         .getOne();
       if(!busca_livro)
-        throw new Error('');
+        throw new Error('Operação não pode ser realizada!');
 
       return busca_livro;
     } 

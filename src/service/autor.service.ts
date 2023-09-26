@@ -98,7 +98,7 @@ class AutorService
       if (autorDb) // verifica se ocorreu algum erro na operação
         return autorDb;
       else
-        throw new Error('Operação não pode ser realizada!'); //!
+        throw new Error('Operação não pode ser realizada!');
     } 
     catch (e: any) 
     {

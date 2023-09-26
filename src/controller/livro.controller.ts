@@ -13,7 +13,7 @@ class LivroController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '' || e.message == '')
+      if (e.message == 'Autor não cadastrado!' || e.message == 'Editora não cadastrada!' || e.message == 'Operação não pode ser realizada!')
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -30,7 +30,7 @@ class LivroController
     } 
     catch (e: any) 
     {
-      if (e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!') 
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -47,7 +47,7 @@ class LivroController
     } 
     catch (e: any) 
     {
-      if (e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!') 
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -65,7 +65,7 @@ class LivroController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '') 
+      if (e.message == 'Livro não encontrado!' || e.message == 'Autor não encontrado!' || e.message == 'Editora não encontrada!' || e.message == '') 
         return response.status(409).json(e.message);
     
       return response.status(500).json(e.message);
@@ -82,7 +82,7 @@ class LivroController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '') 
+      if (e.message == 'Livro não encontrado!' || e.message == 'Operação não pode ser realizada!') 
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -99,7 +99,7 @@ class LivroController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '' || e.message == '')
+      if (e.message == 'Operação não pode ser realizada!')
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);

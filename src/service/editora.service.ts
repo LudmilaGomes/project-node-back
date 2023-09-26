@@ -58,7 +58,7 @@ class EditoraService
       if (editora_encontrado) 
         return editora_encontrado; // retorna o editora encontrado
       else 
-        throw new Error('Operação não pode ser realizada!'); //!
+        throw new Error('Operação não pode ser realizada!');
     } 
     catch (e: any) 
     {
@@ -74,7 +74,7 @@ class EditoraService
     {
       const getEditora: any = await editoraRepo.findOne(id);
       if (!getEditora) 
-        throw new Error('Editora não encontrada!'); //!
+        throw new Error('Editora não encontrada!');
 
       // atualiza o editora em questão com os dados enviados (não é obrigatório o envio de todos os dados)
       const editoraDb: any = await editoraRepo.update(
@@ -91,7 +91,7 @@ class EditoraService
       if (editoraDb) 
         return editoraDb;
       else
-        throw new Error('Operação não pode ser realizada!'); //!
+        throw new Error('Operação não pode ser realizada!');
     } 
     catch (e: any) 
     {
@@ -109,12 +109,12 @@ class EditoraService
     {
       const verifica_id = await editoraRepo.findOne({ id });
       if (!verifica_id) 
-        throw new Error('Editora não encontrada!'); //!
+        throw new Error('Editora não encontrada!'); 
       
       const deleta_editora = await editoraRepo.delete(editora);
 
       if (!deleta_editora) 
-        throw new Error('Operação não pode ser realizada!'); //!
+        throw new Error('Operação não pode ser realizada!'); 
 
       return deleta_editora;
     } 
