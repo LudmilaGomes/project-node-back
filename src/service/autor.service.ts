@@ -4,31 +4,31 @@ import AutorRepository from '../repositories/autor';
 class AutorService 
 {
   // ======================//====================== para apresentar - Projetinho 1
-  async createHelp(nome_autor: string, data_nasc: string, nacionalidade: string)
-  {
-    // estabelece conexão com banco de dados
-    const connection = await getConnection();
-    const autorRepo: AutorRepository = connection.getCustomRepository(AutorRepository);
-    const autor: any = {nome_autor, data_nasc, nacionalidade};
-    try 
-    {
-      const autorDb: any = await autorRepo.save(autor);
-      console.log("Salvo!");
+  // async createHelp(nome_autor: string, data_nasc: string, nacionalidade: string)
+  // {
+  //   // estabelece conexão com banco de dados
+  //   const connection = await getConnection();
+  //   const autorRepo: AutorRepository = connection.getCustomRepository(AutorRepository);
+  //   const autor: any = {nome_autor, data_nasc, nacionalidade};
+  //   try 
+  //   {
+  //     const autorDb: any = await autorRepo.save(autor);
+  //     console.log("Salvo!");
 
-      if (autorDb)
-        return autorDb; 
-      else
-      {
-        console.log("Socoro1!");
-        throw new Error('erro_autor_nao_pode_ser_salvo_no_BD');
-      }
-    } 
-    catch 
-    (e: any) 
-    {
-      throw new Error(e.message);
-    }
-  }
+  //     if (autorDb)
+  //       return autorDb; 
+  //     else
+  //     {
+  //       console.log("Socoro1!");
+  //       throw new Error('erro_autor_nao_pode_ser_salvo_no_BD');
+  //     }
+  //   } 
+  //   catch 
+  //   (e: any) 
+  //   {
+  //     throw new Error(e.message);
+  //   }
+  // }
 
   // ======================//====================== para testar - Projeto 2
 
@@ -145,6 +145,11 @@ class AutorService
       throw new Error(e.message);
     }
   }
+
+  // async searchByNameAutor() 
+  // {
+    
+  // }
 }
 
 export default new AutorService();
