@@ -1,8 +1,6 @@
-// import { Router } from 'express';
 import app from './app';
 import enviromentConfig from "./config/enviroment.config"; // salva número da porta usada
 import "./config/database.config"; // configuração de conexão com banco de dados usando DataSource
-// import { AutorController } from './controller/index.controller';
 
 const express = require('express');
 
@@ -11,7 +9,7 @@ const PORT = enviromentConfig.app.port;
 
 // // servidor é inicializado para escutar na porta indicada (PORT)
 app.listen(PORT, () =>  {
-    console.log(`Servidor rodando na porta ${PORT}!`);
+  console.log(`Servidor rodando na porta ${PORT}!`);
 });
 
 // menu e interatividade com usuário - passar para outro arquivo e transoformar em função
@@ -32,8 +30,6 @@ const mainMenu = async () => {
 
   const option = await prompt.run();
 
-	// const routes = Router();
-
   switch (option) {
     case 'Criar Autor':
       // Implemente a lógica para criar um autor
@@ -51,10 +47,7 @@ const mainMenu = async () => {
       console.log('Saindo do aplicativo.');
       process.exit(0);
   }
-
-  // Após realizar a operação desejada, você pode chamar o menu principal novamente
-  mainMenu();
+  mainMenu(); // Após realizar a operação desejada, você pode chamar o menu principal novamente
 };
 
-// Inicie o aplicativo chamando o menu principal
-mainMenu();
+mainMenu(); // Inicie o aplicativo chamando o menu principal

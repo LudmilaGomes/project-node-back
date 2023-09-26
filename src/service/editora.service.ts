@@ -99,6 +99,7 @@ class EditoraService
     const connection = await getConnection();
     const editoraRepo: EditoraRepository = connection.getCustomRepository(EditoraRepository);
     const editora: any = { id };
+
     try 
     {
       const verifica_id = await editoraRepo.findOne({ id });
@@ -118,6 +119,29 @@ class EditoraService
       throw new Error(e.message);
     }
   }  
+
+  async searchByNameEditora(nome_editora: string) 
+  {
+    const connection = await getConnection();
+    const editoraRepo: EditoraRepository = connection.getCustomRepository(EditoraRepository);
+
+    try 
+    {
+      // verificar se editora existe por nome_editora
+      const busca_editora: any = await editoraRepo
+        .createQueryBuilder('editora')
+        .where('editora.nome = :nome', { nome: nome_editora })
+        .getOne();
+      if(!busca_editora)
+        throw new Error('');
+
+      return busca_editora;
+    } 
+    catch (e: any) 
+    {
+      throw new Error(e.message);
+    }
+  }
 }
 
 export default new EditoraService();

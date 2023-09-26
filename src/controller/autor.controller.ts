@@ -3,35 +3,6 @@ import { Request, Response } from 'express';
 
 class AutorController
 {
-//   // ======================//====================== para apresentar - Projetinho 1
-//   async createHelp(nome_autor: string, data_nasc: string, nacionalidade: string)
-//   {
-//     try 
-//     {
-//       const autor = await AutorService.createHelp(nome_autor, data_nasc, nacionalidade);
-//       console.log("Socoro2!");
-//       return autor;
-//       // return response.status(200).json(autor);
-//     } 
-//     catch (e: any) 
-//     {
-//       if (e.message == 'erro_autor_nao_pode_ser_salvo_no_BD')
-//       {
-//         console.log("Socoro2!");
-//         console.error("Erro ao criar autor:", e);
-//         return 124;
-//       }
-        
-//       // if (e.message == 'error_autor_already_registered' || e.message == 'error_autor_cannot_be_registered' 
-//       //     || e.message == 'error_autor_cannot_be_saved')
-//         // return response.status(409).json(e.message);
-
-//       // return response.status(500).json(e.message);
-//     }
-//   }
-
-  // ======================//====================== para testar - Projeto 2
-
   async create(request: Request, response: Response) 
   {
     const { nome, data_nasc, nacionalidade } = request.body;
@@ -42,7 +13,7 @@ class AutorController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '' || e.message == '')
+      if (e.message == 'Autor já cadastrado!' || e.message == 'Operação não pode ser realizada!' || e.message == 'Autor não encontrado!')
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -58,7 +29,7 @@ class AutorController
     } 
     catch (e: any) 
     {
-      if (e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!') 
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -75,7 +46,7 @@ class AutorController
     } 
     catch (e: any) 
     {
-      if (e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!') 
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
@@ -93,7 +64,7 @@ class AutorController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!' || e.message == 'Autor não encontrado!') 
         return response.status(409).json(e.message);
     
       return response.status(500).json(e.message);
@@ -110,17 +81,29 @@ class AutorController
     } 
     catch (e: any) 
     {
-      if (e.message == '' || e.message == '') 
+      if (e.message == 'Operação não pode ser realizada!' || e.message == 'Autor não encontrado!') 
         return response.status(409).json(e.message);
 
       return response.status(500).json(e.message);
     }
   }
 
-  // async searchByNameAutor() 
-  // {
-    
-  // }
+  async searchByNameAutor(request: Request, response: Response) 
+  {
+    const { nome_autor } = request.body;
+    try 
+    {
+      const autor = await AutorService.searchByNameAutor(nome_autor);
+      return response.status(200).json(autor);
+    } 
+    catch (e: any) 
+    {
+      if (e.message == 'Autor não encontrado!')
+        return response.status(409).json(e.message);
+
+      return response.status(500).json(e.message);
+    }
+  }
 }
 
 export default new AutorController() ;

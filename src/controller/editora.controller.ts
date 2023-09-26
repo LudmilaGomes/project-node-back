@@ -88,36 +88,22 @@ class EditoraController
     }
   }
 
-  // async create(nome_autor: string, data_nasc: Date, nacionalidade: string)
-  // {
-  //   try 
-  //   {
-  //     const editora = await EditoraService.create(nome_autor, data_nasc, nacionalidade);
-  //     console.log("Socoro2!");
-  //     return editora;
-  //     // return response.status(200).json(editora);
-  //   } 
-  //   catch (e: any) 
-  //   {
-  //     if (e.message == 'erro_autor_nao_pode_ser_salvo_no_BD')
-  //     {
-  //       console.log("Socoro2!");
-  //       console.error("Erro ao criar autor:", e);
-  //       return 124;
-  //     }
-        
-  //     // if (e.message == 'error_editora_already_registered' || e.message == 'error_editora_cannot_be_registered' 
-  //     //     || e.message == 'error_editora_cannot_be_saved')
-  //       // return response.status(409).json(e.message);
+  async searchByNameEditora(request: Request, response: Response) 
+  {
+    const { nome_editora } = request.body;
+    try 
+    {
+      const editora = await EditoraService.searchByNameEditora(nome_editora);
+      return response.status(200).json(editora);
+    } 
+    catch (e: any) 
+    {
+      if (e.message == '' || e.message == '' || e.message == '')
+        return response.status(409).json(e.message);
 
-  //     // return response.status(500).json(e.message);
-  //   }
-  // }
-
-  // async searchByNameEditora() 
-  // {
-    
-  // }
+      return response.status(500).json(e.message);
+    }
+  }
 }
 
 export default new EditoraController() ;

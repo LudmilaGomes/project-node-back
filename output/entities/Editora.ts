@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Livro } from "./Livro";
 
 @Entity("editora", { schema: "public" })
 export class Editora {
@@ -22,4 +23,7 @@ export class Editora {
 
   @Column("integer", { name: "ano_fundacao" })
   anoFundacao: number;
+
+  @OneToMany(() => Livro, (livro) => livro.codEditora)
+  livros: Livro[];
 }

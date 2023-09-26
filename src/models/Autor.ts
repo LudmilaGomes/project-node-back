@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Livro } from "./Livro";
 
 @Entity("autor", { schema: "public" })
 export class Autor {
@@ -13,4 +14,7 @@ export class Autor {
 
   @Column("character varying", { name: "nacionalidade" })
   nacionalidade: string;
+
+  @OneToMany(() => Livro, (livro) => livro.codAutor)
+  livros: Livro[];
 }
