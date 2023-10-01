@@ -1,8 +1,10 @@
-// Implementação do menu
-const menus = require('./menus');
-const { showMenu, submenuAutor, submenuEditora, submenuLivro, submenuRelatorios } = menus;
-
-const promptMenu = ['Dados | Autor', 'Dados | Editora', 'Dados | Livros', 'Relatórios', 'Sair do Programa'];
+const { submenuAutor, 
+submenuEditora, 
+submenuLivro, 
+submenuRelatorios, 
+showMenu, 
+promptMenu } 
+= require('./menus/menu.index');
 
 // Função para exibir o menu principal
 async function mainMenu() 
