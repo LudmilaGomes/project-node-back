@@ -9,12 +9,12 @@ export class Autor {
   @Column("character varying", { name: "nome" })
   nome: string;
 
-  @Column("character varying", { name: "data_nasc" })
+  @Column("date", { name: "data_nasc" })
   data_nasc: string;
 
   @Column("character varying", { name: "nacionalidade" })
   nacionalidade: string;
 
-  @OneToMany(() => Livro, (livro) => livro.codAutor)
+  @OneToMany(() => Livro, (livro) => livro.cod_autor)
   livros: Livro[];
 }

@@ -90,7 +90,7 @@ class EditoraController
 
   async searchByNameEditora(request: Request, response: Response) 
   {
-    const { nome_editora } = request.body;
+    const nome_editora = request.params.nome;
     try 
     {
       const editora = await EditoraService.searchByNameEditora(nome_editora);
@@ -106,4 +106,4 @@ class EditoraController
   }
 }
 
-export default new EditoraController() ;
+export default new EditoraController();

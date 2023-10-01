@@ -1,3 +1,5 @@
+import enviromentConfig from "./enviroment.config";
+import ormconfig from "../../ormconfig";
 import { createConnection } from 'typeorm';
 
 (async () => {

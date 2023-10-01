@@ -24,7 +24,7 @@ class AutorController
   {
     try 
     {
-      const autor = await AutorService.readAutores() ;
+      const autor = await AutorService.readAutores();
       return response.status(200).json(autor); // resource found
     } 
     catch (e: any) 
@@ -90,7 +90,7 @@ class AutorController
 
   async searchByNameAutor(request: Request, response: Response) 
   {
-    const { nome_autor } = request.body;
+    const nome_autor = request.params.nome;
     try 
     {
       const autor = await AutorService.searchByNameAutor(nome_autor);
@@ -106,4 +106,4 @@ class AutorController
   }
 }
 
-export default new AutorController() ;
+export default new AutorController();

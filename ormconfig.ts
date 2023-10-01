@@ -7,14 +7,16 @@ export default {
   port: Number(process.env.TYPEORM_PORT),
   host: process.env.TYPEORM_HOST,
   username: process.env.TYPEORM_USERNAME,
-  password: String(process.env.TYPEORM_PASSWORD),
+  password: process.env.TYPEORM_PASSWORD,
   database: process.env.TYPEORM_DATABASE,
-  logging: false,
-  entities: ['src/models/**'],
-  migrations: ['src/database/migrations/**'],
+  autoLoadEntities: true,
+  // logging: true,
+  ssl: false,
+  entities: ["src/models/**"],
+  migrations: ["src/database/migrations/**"],
   cli: {
-    migrationsDir: 'src/database/migrations',
-    entitiesDir: 'src/models',
+    migrationsDir: "src/database/migrations",
+    entitiesDir: "src/models/",
   }
 };
 

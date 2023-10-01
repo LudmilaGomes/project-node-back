@@ -2,7 +2,6 @@ import { getConnection } from 'typeorm';
 import LivroRepository from '../repositories/livro';
 import AutorRepository from '../repositories/autor';
 import EditoraRepository from '../repositories/editora';
-import { Livro } from '../models/Livro';
 
 class LivroService 
 {
@@ -22,6 +21,7 @@ class LivroService
         .createQueryBuilder('autor')
         .where('autor.nome = :nome', { nome: nome_autor })
         .getOne();
+      console.log(verifica_autor);
       if(!verifica_autor)
         throw new Error('Autor não cadastrado!');
 
@@ -30,11 +30,12 @@ class LivroService
         .createQueryBuilder('editora')
         .where('editora.nome = :nome', { nome: nome_editora })
         .getOne();
+      console.log(verifica_editora);
       if(!verifica_editora)
         throw new Error('Editora não cadastrada!');
       
       // salvar ids de autor e editora nas variáveis: cod_autor, cod_editora
-      const cod_editora = verifica_autor.id;
+      const cod_editora = verifica_editora.id;
       const cod_autor = verifica_autor.id;
 
       const livro = {nome, cod_autor, cod_editora, descricao, quantidade, data_public, genero, volume, edicao};
@@ -98,36 +99,52 @@ class LivroService
 
     try 
     {
-      const getLivro: any = await livroRepo.findOne(id);
+      const getLivro: any = await livroRepo
+        .createQueryBuilder('livro')
+        .innerJoinAndSelect('livro.cod_autor', 'autor')
+        .innerJoinAndSelect('livro.cod_editora', 'editora')
+        .where('livro.id = :id', { id: id })
+        .getOne();
       if (!getLivro) 
         throw new Error('Livro não encontrado!');
       
-      // verificar se autor existe por nome_autor
-      const verifica_autor: any = await autorRepo
-        .createQueryBuilder('autor')
-        .where('autor.nome = :nome', { nome: nome_autor })
-        .getOne();
-      if(!verifica_autor)
-        throw new Error('Autor não encontrado!');
+      let verifica_autor, verifica_editora, cod_editora, cod_autor;
 
-      // verificar se autor existe por nome_autor
-      const verifica_editora: any = await editoraRepo
-        .createQueryBuilder('editora')
-        .where('editora.nome = :nome', { nome: nome_editora })
-        .getOne();
-      if(!verifica_editora)
-        throw new Error('Editora não encontrada!');
-
-      const cod_editora = verifica_autor.id;
-      const cod_autor = verifica_autor.id;
+      // se nome_autor for diferente de uma string vazia, significa que 
+      // o usuário quer atualizar o nome do autor e precisamos verificar...
+      if(nome_autor)
+      {
+        // ...verificar se autor existe por nome_autor
+        verifica_autor = await autorRepo
+          .createQueryBuilder('autor')
+          .where('autor.nome = :nome', { nome: nome_autor })
+          .getOne();
+        if(!verifica_autor)
+          throw new Error('Autor não encontrado!');
+        cod_autor = verifica_autor.id;
+      }
+      
+      // se nome_editora for diferente de uma string vazia, significa que 
+      // o usuário quer atualizar o nome da editora e precisamos verificar...
+      if(nome_editora)
+      {
+        // ... verificar se editora existe por nome_editora
+        verifica_editora = await editoraRepo
+          .createQueryBuilder('editora')
+          .where('editora.nome = :nome', { nome: nome_editora })
+          .getOne();
+        if(!verifica_editora)
+          throw new Error('Editora não encontrada!');
+        cod_editora = verifica_editora.id;
+      }
 
       // atualiza o livro em questão com os dados enviados (não é obrigatório o envio de todos os dados)
       const livroDb: any = await livroRepo.update(
         { id, },
         {
           nome: nome ? nome : getLivro.nome,
-          cod_autor: cod_autor ? cod_autor : getLivro.cod_autor,
-          cod_editora: cod_editora ? cod_editora : getLivro.cod_editora,
+          cod_autor: cod_autor ? cod_autor : getLivro.cod_autor.id,
+          cod_editora: cod_editora ? cod_editora : getLivro.cod_editora.id,
           descricao: descricao ? descricao : getLivro.descricao,
           quantidade: quantidade ? quantidade : getLivro.quantidade,
           data_public: data_public ? data_public : getLivro.data_public,

@@ -1,5 +1,6 @@
-import { getConnection } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 import AutorRepository from '../repositories/autor';
+import { Autor } from '../models/Autor';
 
 class AutorService 
 {
@@ -37,7 +38,6 @@ class AutorService
   {
     const connection = await getConnection();
     const autorRepo: AutorRepository = connection.getCustomRepository(AutorRepository);
-
     try 
     {
       const autores = await autorRepo.find();
@@ -136,7 +136,6 @@ class AutorService
   {
     const connection = await getConnection();
     const autorRepo: AutorRepository = connection.getCustomRepository(AutorRepository);
-
     try 
     {
       // verifica se autor existe por nome_autor

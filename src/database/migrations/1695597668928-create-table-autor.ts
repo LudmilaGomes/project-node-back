@@ -24,7 +24,7 @@ export class CreateTableAutor1695597668928 implements MigrationInterface
 				},
 				{
 					name: 'data_nasc',
-					type: 'varchar',
+					type: 'date',
 					isNullable: false,
 				},
 				{

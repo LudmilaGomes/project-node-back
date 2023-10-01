@@ -91,7 +91,7 @@ class LivroController
 
   async searchByNameLivro(request: Request, response: Response) 
   {
-    const { nome_livro } = request.body;
+    const nome_livro = request.params.nome;
     try 
     {
       const livro = await LivroService.searchByNameLivro(nome_livro);
@@ -107,4 +107,4 @@ class LivroController
   }
 }
 
-export default new LivroController() ;
+export default new LivroController();
