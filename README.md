@@ -2,7 +2,7 @@
 
 ## About the Project
 
-<p>With the goal of learning ReactJS and practicing the use of NodeJS, I decided to put the project idea into practice using these technologies.</p>
+<p>The idea for this project was developed to practice the use of Node.js and for projects in the Banco de Dados discipline.</p>
 <p>Biblioteca Virtual is a system that manipulates and manages the data of a fictional library, storing information about books, users, sellers, fines, and loans.</p>
 
 ## Available Scripts
