@@ -11,8 +11,4 @@ In the project directory, you can run:
 
 ### `yarn local`
 
-Runs the app in the development mode.\
-Open [http://localhost:3100](http://localhost:3100) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+In the program directory (at project-node-back/program), you can run `node mp.js` for the use of interactive program; in this, you can use the methods of CRUD system and manage informations and data at the Biblioteca Virtual.
