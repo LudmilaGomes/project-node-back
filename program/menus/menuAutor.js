@@ -5,31 +5,30 @@ async function submenuAutor()
 {
   while (true) 
   {
+    console.clear();
     const choice = await showMenu(promptAutor);
     let id, nome, data_nasc, nacionalidade;
     switch (choice) 
     {
       case 'Criar Autor':
         nome = readlineSync.question('Nome do autor? ');
-        data_nasc = readlineSync.question('Data de nascimento do autor? ');
+        data_nasc = readlineSync.question('Data de nascimento do autor (mm/dd/aaaa)? ');
         nacionalidade = readlineSync.question('Nacionalidade do autor? ');
-        const dados = await createAutores(nome, data_nasc, nacionalidade)
-        if (!dados)
-          throw e.message;
+        await createAutores(nome, data_nasc, nacionalidade);
         await waitForEnter();
         break;
       case 'Retornar Autores':
-        console.log(await readAutores());
+        await readAutores();
         await waitForEnter();
         break;
       case 'Retornar Autor':
         id = readlineSync.question('Id do autor? ');
-        console.log(await readAutor(id));
+        await readAutor(id);
         await waitForEnter();
         break;
       case 'Buscar Autor por nome':
         nome = readlineSync.question('Nome do autor? ');
-        console.log(await searchAutor(nome));
+        await searchAutor(nome);
         await waitForEnter();
         break;
       case 'Atualizar Autor':
@@ -37,12 +36,12 @@ async function submenuAutor()
         nome = readlineSync.question('Nome do autor? ');
         data_nasc = readlineSync.question('Data de nascimento do autor? ');
         nacionalidade = readlineSync.question('Nacionalidade do autor? ');
-        console.log(await updateAutor(id, nome, data_nasc, nacionalidade));
+        await updateAutor(id, nome, data_nasc, nacionalidade);
         await waitForEnter();
         break;
       case 'Excluir Autor':
         id = readlineSync.question('Id do autor? ');
-        console.log(await deleteAutor(id));
+        await deleteAutor(id);
         await waitForEnter();
         break;
       case 'Voltar':

@@ -30,6 +30,16 @@ const updateAutor = celebrate(
   }
 );
 
+const readAutor = celebrate(
+  {
+    params: Joi.object().keys({id: Joi.number().required()}),
+  },
+  {
+    abortEarly: false,
+    messages,
+  }
+);
+
 const deleteAutor = celebrate(
   {
     params: Joi.object().keys({id: Joi.number().required()}),
@@ -50,4 +60,4 @@ const searchAutor = celebrate(
   }
 );
 
-export { createAutor, updateAutor, deleteAutor, searchAutor };
+export { createAutor, updateAutor, readAutor, deleteAutor, searchAutor };

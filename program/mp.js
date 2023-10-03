@@ -12,6 +12,8 @@ async function mainMenu()
   while (true) 
   {
     console.clear();
+    console.log("========== BIBLIOTECA VIRTUAL ==========");
+    console.log();
     const choice = await showMenu(promptMenu);
 
     switch (choice) 

@@ -18,7 +18,7 @@ routes.get('/socoro',async (request: Request, response: Response) => {
 
 routes.post('/autor/', AutorValidation.createAutor, AutorController.create); 
 routes.get('/autor/', AutorController.readAutores); 
-routes.get('/autor/:id', AutorController.readAutor); 
+routes.get('/autor/:id', AutorValidation.readAutor, AutorController.readAutor); 
 routes.put('/autor/:id', AutorValidation.updateAutor, AutorController.updateAutor); 
 routes.delete('/autor/:id', AutorValidation.deleteAutor, AutorController.deleteAutor); 
 routes.get('/autor/busca/:nome', AutorValidation.searchAutor, AutorController.searchByNameAutor); 
@@ -33,7 +33,7 @@ routes.get('/editora/busca/:nome', EditoraValidation.searchEditora, EditoraContr
 routes.post('/livro/', LivroValidation.createLivro, LivroController.create); 
 routes.get('/livro/', LivroController.readLivros); 
 routes.get('/livro/:id', LivroController.readLivro); 
-routes.put('/livro/:id', LivroValidation.updateLivro, LivroController.updateLivro); 
+routes.put('/livro/:id', /*LivroValidation.updateLivro,*/ LivroController.updateLivro); 
 routes.delete('/livro/:id', LivroValidation.deleteLivro, LivroController.deleteLivro); 
 routes.get('/livro/busca/:nome', LivroValidation.searchLivro, LivroController.searchByNameLivro); 
 

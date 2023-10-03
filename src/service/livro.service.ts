@@ -21,7 +21,7 @@ class LivroService
         .createQueryBuilder('autor')
         .where('autor.nome = :nome', { nome: nome_autor })
         .getOne();
-      console.log(verifica_autor);
+      // console.log(verifica_autor);
       if(!verifica_autor)
         throw new Error('Autor não cadastrado!');
 
@@ -30,7 +30,7 @@ class LivroService
         .createQueryBuilder('editora')
         .where('editora.nome = :nome', { nome: nome_editora })
         .getOne();
-      console.log(verifica_editora);
+      // console.log(verifica_editora);
       if(!verifica_editora)
         throw new Error('Editora não cadastrada!');
       

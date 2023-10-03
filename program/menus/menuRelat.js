@@ -1,7 +1,5 @@
 const { waitForEnter, showMenu, readlineSync, promptRelatorios } = require('./menuFuncoes');
-const { readAutores } = require('./../database/autorBd');
-const { readEditoras } = require('./../database/editoraBd');
-const { readLivros } = require('./../database/livroBd');
+const {api} = require('./../database/axiosConfig');
 
 // adiciona strings ao dicionário como chaves; quantidades de instâncias das strings são valores
 async function addStringDict(str, dict) // parâmetros: string, dicionário
@@ -17,10 +15,19 @@ async function addStringDict(str, dict) // parâmetros: string, dicionário
 async function relatAutor() 
 {
   // captura todos os dados de autores
-  const dados = await readAutores();
+  const response = await api.get('autor');
+  const dados = response.data;
   // variáveis importantes que são usadas (listas e dicionário)
   let listaNacional = [], listaNomes = [], listaDataNasc = [], dictNacional = {}, quant_autor;
   let i;
+
+  // se não houver autores cadastrados!
+  if (!dados)
+  {
+    console.log("Não há autores cadastrados!");
+    return;
+  }
+
   // guardamos os dados nas listas com o laço de rep.
   for (i = 0; i < dados.length; i++) 
   {
@@ -29,7 +36,7 @@ async function relatAutor()
     listaDataNasc.push(dados[i].data_nasc);
   }
   // valor do índice final + 1 é a quant. de autores cadastrados no sistema
-  quant_autor = i + 1; 
+  quant_autor = dados.length; 
   // laço de rep. para adicionar nacionalidades ao dicionário e suas quantidades
   for (i = 0; i < listaNacional.length; i++) 
   {
@@ -57,11 +64,20 @@ async function relatAutor()
 // quantidade de editoras, lista com nomes, quantas têm site, lista com emails, anos de fundação
 async function relatEditora() 
 {
-  const dados = await readEditoras();
+  const response = await api.get('editora');
+  const dados = response.data;
 
   // variáveis importantes que são usadas (listas e dicionário)
   let listaNomes = [], listaSites = [], listaEmails = [],  quant_editoras;
   let i;
+  
+  // se não houver editoras cadastradas!
+  if (!dados)
+  {
+    console.log("Não há editoras cadastradas!");
+    return;
+  }
+
   // guardamos os dados nas listas com o laço de rep.
   for (i = 0; i < dados.length; i++) 
   {
@@ -69,7 +85,7 @@ async function relatEditora()
     listaSites.push(dados[i].site);
     listaEmails.push(dados[i].email);
   }
-  quant_editoras = i + 1;
+  quant_editoras = dados.length;
 
   console.log("==================================== RELATORIO | EDITORAS ====================================");
   console.log();
@@ -86,17 +102,26 @@ async function relatEditora()
 // quantidades de livros cadastrados, ano de publicação, gêneros, quantidade de exemplares
 async function relatLivro() 
 {
-  const dados = await readLivros();
+  const response = await api.get('livro');
+  const dados = response.data;
   // variáveis importantes que são usadas (listas e dicionário)
   let listaGenero = [], listaDataPublic = [], dictGenero = {}, quant_livros, quant_exemplares = 0;
   let i;
+
+  // se não houver livros cadastrados!
+  if (!dados)
+  {
+    console.log("Não há livros cadastrados!");
+    return;
+  }
+
   for (i = 0; i < dados.length; i++) 
   {
     listaGenero.push(dados[i].genero);
     listaDataPublic.push(dados[i].data_public);
     quant_exemplares += dados[i].quantidade;
   }
-  quant_livros = i + 1;
+  quant_livros = dados.length;
   
   for (i = 0; i < listaGenero.length; i++) 
   {
@@ -125,6 +150,7 @@ async function submenuRelatorios()
 {
   while (true) 
   {
+    console.clear();
     const choice = await showMenu(promptRelatorios);
 
     switch (choice) 
