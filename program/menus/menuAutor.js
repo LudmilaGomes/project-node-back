@@ -13,7 +13,9 @@ async function submenuAutor()
         nome = readlineSync.question('Nome do autor? ');
         data_nasc = readlineSync.question('Data de nascimento do autor? ');
         nacionalidade = readlineSync.question('Nacionalidade do autor? ');
-        console.log(await createAutores(nome, data_nasc, nacionalidade));
+        const dados = await createAutores(nome, data_nasc, nacionalidade)
+        if (!dados)
+          throw e.message;
         await waitForEnter();
         break;
       case 'Retornar Autores':

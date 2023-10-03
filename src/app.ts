@@ -1,6 +1,7 @@
 import express from "express"; // importa framework Express
 import routes from "./routes/index.routes";
 import cors from "cors";
+import { errors } from "celebrate";
 import bodyParser from "body-parser";
 
 // criação de instância de aplicativo (app); nela, configuramos routes e middleware
@@ -12,5 +13,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors());
 app.use(express.static("temp"));
 app.use(routes);
+app.use(errors())
 
 export default app; // exportamos

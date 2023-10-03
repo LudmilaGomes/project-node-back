@@ -6,13 +6,10 @@ async function createAutores(nome, data_nasc, nacionalidade)
   try 
   {
     const response = await api.post(url_str, {nome, data_nasc, nacionalidade});
-    if (response && response.data)
-    {
-      // console.log(response.data);
-      return response.data; // Retorna os dados em caso de sucesso
-    }
-    else
+    
+    if (!response || !response.data) 
       throw new Error('Resposta vazia ou inválida');
+    return response.data;
   } 
   catch (error) 
   {
