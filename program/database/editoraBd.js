@@ -40,7 +40,7 @@ async function updateEditora(id, nome, endereco, num_telefone, email, site, ano_
   const url = url_str + '/' + id;
   const response = await api.put(url, {nome, endereco, num_telefone, email, site, ano_fundacao})
   .then(function (response) {
-    console.log(response.data);
+    console.log("Dados da editora atualizados!");
   })
   .catch(function (error) {
     console.log("ERRO: ", error.response.data);
@@ -52,7 +52,7 @@ async function deleteEditora(id)
   const url = url_str + '/' + id;
   const response = await api.delete(url)
   .then(function (response) {
-    console.log(response.data);
+    console.log("Editora removida!");
   })
   .catch(function (error) {
     console.log("ERRO: ", error.response.data);

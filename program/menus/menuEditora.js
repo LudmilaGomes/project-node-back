@@ -11,12 +11,12 @@ async function submenuEditora()
     switch (choice) 
     {
       case 'Criar Editora':
-        nome = readlineSync.question('Nome da editora? ');
-        endereco = readlineSync.question('Endereco da editora? ');
-        num_telefone = readlineSync.question('Telefone da editora? ');
-        email = readlineSync.question('E-mail da editora? ');
-        site = readlineSync.question('Site da editora? (Opcional)');
-        ano_fundacao = readlineSync.question('Ano de fundacao da editora? ');
+        nome = readlineSync.question('Nome da editora: ');
+        endereco = readlineSync.question('Endereco da editora: ');
+        num_telefone = readlineSync.question('Telefone da editora: ');
+        email = readlineSync.question('E-mail da editora: ');
+        site = readlineSync.question('Site da editora: (Opcional)');
+        ano_fundacao = readlineSync.question('Ano de fundacao da editora: ');
         await createEditoras(nome, endereco, num_telefone, email, site, ano_fundacao);
         await waitForEnter();
         break;
@@ -25,28 +25,28 @@ async function submenuEditora()
         await waitForEnter();
         break;
       case 'Retornar Editora':
-        id = readlineSync.question('Id da editora? ');
+        id = readlineSync.question('Id da editora: ');
         await readEditora(id);
         await waitForEnter();
         break;
       case 'Buscar Editora por nome':
-        nome = readlineSync.question('Nome da editora? ');
+        nome = readlineSync.question('Nome da editora: ');
         await searchEditora(nome);
         await waitForEnter();
         break;
       case 'Atualizar Editora':
-        id = readlineSync.question('Id da editora? ');
-        nome = readlineSync.question('Nome da editora? ');
-        endereco = readlineSync.question('Endereco da editora? ');
-        num_telefone = readlineSync.question('Telefone da editora? ');
-        email = readlineSync.question('E-mail da editora? ');
-        site = readlineSync.question('Site da editora? (Opcional)');
-        ano_fundacao = readlineSync.question('Ano de fundacao da editora? ');
+        id = readlineSync.question('Id da editora: ');
+        nome = readlineSync.question('Nome da editora: ');
+        endereco = readlineSync.question('Endereco da editora: ');
+        num_telefone = readlineSync.question('Telefone da editora: ');
+        email = readlineSync.question('E-mail da editora: ');
+        site = readlineSync.question('Site da editora: (Opcional)');
+        ano_fundacao = readlineSync.question('Ano de fundacao da editora: ');
         await updateEditora(id, nome, endereco, num_telefone, email, site, ano_fundacao);
         await waitForEnter();
         break;
       case 'Excluir Editora':
-        id = readlineSync.question('Id da editora? ');
+        id = readlineSync.question('Id da editora: ');
         await deleteEditora(id);
         await waitForEnter();
         break;

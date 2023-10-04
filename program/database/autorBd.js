@@ -40,7 +40,7 @@ async function updateAutor(id, nome, data_nasc, nacionalidade)
   const url = url_str + '/' + id;
   const response = await api.put(url, {nome, data_nasc, nacionalidade})
   .then(function (response) {
-    console.log(response.data);
+    console.log("Dados do autor atualizados!");
   })
   .catch(function (error) {
     console.log("ERRO: ", error.response.data);
@@ -52,7 +52,7 @@ async function deleteAutor(id)
   const url = url_str + '/' + id;
   const response = await api.delete(url)
   .then(function (response) {
-    console.log(response.data);
+    console.log("Autor removido!");
   })
   .catch(function (error) {
     console.log("ERRO: ", error.response.data);

@@ -105,7 +105,7 @@ async function relatLivro()
   const response = await api.get('livro');
   const dados = response.data;
   // variáveis importantes que são usadas (listas e dicionário)
-  let listaGenero = [], listaDataPublic = [], dictGenero = {}, quant_livros, quant_exemplares = 0;
+  let listaGenero = [], listaDataPublic = [], listaNomes = [], dictGenero = {}, quant_livros, quant_exemplares = 0;
   let i;
 
   // se não houver livros cadastrados!
@@ -117,6 +117,7 @@ async function relatLivro()
 
   for (i = 0; i < dados.length; i++) 
   {
+    listaNomes.push(dados[i].nome);
     listaGenero.push(dados[i].genero);
     listaDataPublic.push(dados[i].data_public);
     quant_exemplares += dados[i].quantidade;
@@ -137,6 +138,8 @@ async function relatLivro()
   console.log("==================================== RELATORIO | LIVROS ====================================");
   console.log();
   console.log("Quantidade de livros cadastrados: ", quant_livros);
+  console.log();
+  console.log("Nomes de livros cadastrados: ", listaNomes);
   console.log();
   console.log("Total de exemplares guardados: ", quant_exemplares);
   console.log();

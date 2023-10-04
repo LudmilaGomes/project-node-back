@@ -5,7 +5,7 @@ const createAutor = celebrate(
   {
     body: Joi.object().keys({
       nome: Joi.string().required(),
-      data_nasc: Joi.date().required(),
+      data_nasc: Joi.string().required(),
       nacionalidade: Joi.string().required(),
     }),
   },
@@ -19,9 +19,9 @@ const updateAutor = celebrate(
   {
     params: Joi.object().keys({id: Joi.number().required()}),
     body: Joi.object().keys({
-      nome: Joi.string(),
-      data_nasc: Joi.date(),
-      nacionalidade: Joi.string(),
+      nome: Joi.string().allow('').optional(),
+      data_nasc: Joi.string().allow('').optional(),
+      nacionalidade: Joi.string().allow('').optional(),
     }),
   },
   {

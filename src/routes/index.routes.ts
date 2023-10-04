@@ -33,7 +33,7 @@ routes.get('/editora/busca/:nome', EditoraValidation.searchEditora, EditoraContr
 routes.post('/livro/', LivroValidation.createLivro, LivroController.create); 
 routes.get('/livro/', LivroController.readLivros); 
 routes.get('/livro/:id', LivroController.readLivro); 
-routes.put('/livro/:id', /*LivroValidation.updateLivro,*/ LivroController.updateLivro); 
+routes.put('/livro/:id', LivroValidation.updateLivro, LivroController.updateLivro); 
 routes.delete('/livro/:id', LivroValidation.deleteLivro, LivroController.deleteLivro); 
 routes.get('/livro/busca/:nome', LivroValidation.searchLivro, LivroController.searchByNameLivro); 
 

@@ -35,12 +35,12 @@ async function readLivro(id)
   });
 }
 
-async function updateLivro(id, nome, nome_livro, nome_editora, descricao, quantidade, data_public, genero, volume, edicao) 
+async function updateLivro(id, nome, nome_autor, nome_editora, descricao, quantidade, data_public, genero, volume, edicao) 
 {
   const url = url_str + '/' + id;
-  const response = await api.put(url, {nome, nome_livro, nome_editora, descricao, quantidade, data_public, genero, volume, edicao})
+  const response = await api.put(url, {nome, nome_autor, nome_editora, descricao, quantidade, data_public, genero, volume, edicao})
   .then(function (response) {
-    console.log(response.data);
+    console.log("Dados do livro atualizados!");
   })
   .catch(function (error) {
     console.log("ERRO: ", error.response.data);
@@ -52,7 +52,7 @@ async function deleteLivro(id)
   const url = url_str + '/' + id;
   const response = await api.delete(url)
   .then(function (response) {
-    console.log(response.data);
+    console.log("Livro removido!");
   })
   .catch(function (error) {
     console.log("ERRO: ", error.response.data);

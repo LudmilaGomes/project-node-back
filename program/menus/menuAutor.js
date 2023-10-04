@@ -11,9 +11,9 @@ async function submenuAutor()
     switch (choice) 
     {
       case 'Criar Autor':
-        nome = readlineSync.question('Nome do autor? ');
-        data_nasc = readlineSync.question('Data de nascimento do autor (mm/dd/aaaa)? ');
-        nacionalidade = readlineSync.question('Nacionalidade do autor? ');
+        nome = readlineSync.question('Nome do autor: ');
+        data_nasc = readlineSync.question('Data de nascimento do autor (dd/mm/aaaa): ');
+        nacionalidade = readlineSync.question('Nacionalidade do autor: ');
         await createAutores(nome, data_nasc, nacionalidade);
         await waitForEnter();
         break;
@@ -22,25 +22,25 @@ async function submenuAutor()
         await waitForEnter();
         break;
       case 'Retornar Autor':
-        id = readlineSync.question('Id do autor? ');
+        id = readlineSync.question('Id do autor: ');
         await readAutor(id);
         await waitForEnter();
         break;
       case 'Buscar Autor por nome':
-        nome = readlineSync.question('Nome do autor? ');
+        nome = readlineSync.question('Nome do autor: ');
         await searchAutor(nome);
         await waitForEnter();
         break;
       case 'Atualizar Autor':
-        id = readlineSync.question('Id do autor? ');
-        nome = readlineSync.question('Nome do autor? ');
-        data_nasc = readlineSync.question('Data de nascimento do autor? ');
-        nacionalidade = readlineSync.question('Nacionalidade do autor? ');
+        id = readlineSync.question('Id do autor: ');
+        nome = readlineSync.question('Nome do autor: ');
+        data_nasc = readlineSync.question('Data de nascimento do autor (dd/mm/aaaa): ');
+        nacionalidade = readlineSync.question('Nacionalidade do autor: ');
         await updateAutor(id, nome, data_nasc, nacionalidade);
         await waitForEnter();
         break;
       case 'Excluir Autor':
-        id = readlineSync.question('Id do autor? ');
+        id = readlineSync.question('Id do autor: ');
         await deleteAutor(id);
         await waitForEnter();
         break;
