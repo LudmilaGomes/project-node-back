@@ -3,10 +3,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Autor } from "./Autor";
 import { Editora } from "./Editora";
+import { Exemplar } from "./Exemplar";
 
 @Entity("livro", { schema: "public" })
 export class Livro {
@@ -33,6 +35,9 @@ export class Livro {
 
   @Column("integer", { name: "edicao" })
   edicao: number;
+  
+  @OneToOne(() => Exemplar, (exemplar) => exemplar.idLivro2)
+  exemplar: Exemplar;
 
   @ManyToOne(() => Autor, (autor) => autor.livros, { onDelete: "CASCADE" })
   @JoinColumn([{ name: "cod_autor", referencedColumnName: "id" }])
