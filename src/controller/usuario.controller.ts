@@ -5,10 +5,10 @@ class UsuarioController
 {
   async create(request: Request, response: Response) 
   {
-    const { } = request.body;
+    const {nome, cpf, email, senha, eh_estudante, data_nasc, genero, endereco, telefone, tem_multa} = request.body;
     try 
     {
-      const usuario = await UsuarioService.create( );
+      const usuario = await UsuarioService.create(nome, cpf, email, senha, eh_estudante, data_nasc, genero, endereco, telefone, tem_multa);
       return response.status(200).json(usuario);
     } 
     catch (e: any) 
@@ -55,11 +55,11 @@ class UsuarioController
   
   async updateUsuario(request: Request, response: Response) 
   {
-    const {  } = request.body;
+    const {nome, cpf, email, senha, eh_estudante, data_nasc, genero, endereco, telefone, tem_multa} = request.body;
     const id = request.params.id;
     try 
     {
-      const usuario = await UsuarioService.update(id);
+      const usuario = await UsuarioService.update(id, nome, cpf, email, senha, eh_estudante, data_nasc, genero, endereco, telefone, tem_multa);
       return response.status(200).json(usuario);
     } 
     catch (e: any) 

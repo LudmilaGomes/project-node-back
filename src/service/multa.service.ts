@@ -5,12 +5,12 @@ import { Multa } from '../models/Multa';
 class MultaService 
 {
   // Multa dados para um Multa no banco de dados
-  async create( )
+  async create(id_usuario: any, id_emprestimo: any, valor_multa: number, data_limite: Date, data_hoje: Date, multa_paga: number)
   {
     // estabelece conexão com banco de dados
     const connection = await getConnection();
     const MultaRepo: MultaRepository = connection.getCustomRepository(MultaRepository);
-    const Multa: any = { }; // cria objeto com os dados do Multa
+    const Multa: any = {id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga}; // cria objeto com os dados do Multa
     
     try 
     {
@@ -73,7 +73,7 @@ class MultaService
   }
 
   // atualiza dados no banco
-  async update(id: any) 
+  async update(id: any, id_usuario: any, id_emprestimo: any, valor_multa: number, data_limite: Date, data_hoje: Date, multa_paga: number) 
   {
     const connection = await getConnection();
     const MultaRepo: MultaRepository = connection.getCustomRepository(MultaRepository);

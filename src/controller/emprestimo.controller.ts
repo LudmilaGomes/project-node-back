@@ -5,10 +5,10 @@ class EmprestimoController
 {
   async create(request: Request, response: Response) 
   {
-    const { } = request.body;
+    const {id_usuario, id_exemplar, id_bibliotecario, data_realizacao, data_devolucao, tem_multa} = request.body;
     try 
     {
-      const emprestimo = await EmprestimoService.create( );
+      const emprestimo = await EmprestimoService.create(id_usuario, id_exemplar, id_bibliotecario, data_realizacao, data_devolucao, tem_multa);
       return response.status(200).json(emprestimo);
     } 
     catch (e: any) 
@@ -55,11 +55,11 @@ class EmprestimoController
   
   async updateEmprestimo(request: Request, response: Response) 
   {
-    const {  } = request.body;
+    const {id_usuario, id_exemplar, id_bibliotecario, data_realizacao, data_devolucao, tem_multa} = request.body;
     const id = request.params.id;
     try 
     {
-      const emprestimo = await EmprestimoService.update(id);
+      const emprestimo = await EmprestimoService.update(id, id_usuario, id_exemplar, id_bibliotecario, data_realizacao, data_devolucao, tem_multa);
       return response.status(200).json(emprestimo);
     } 
     catch (e: any) 

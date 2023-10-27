@@ -5,10 +5,10 @@ class BibliotecarioController
 {
   async create(request: Request, response: Response) 
   {
-    const { } = request.body;
+    const {nome, cpf, email, senha, data_nasc, genero, endereco, telefone, data_admissao, formacao_academica} = request.body;
     try 
     {
-      const bibliotecario = await BibliotecarioService.create( );
+      const bibliotecario = await BibliotecarioService.create(nome, cpf, email, senha, data_nasc, genero, endereco, telefone, data_admissao, formacao_academica);
       return response.status(200).json(bibliotecario);
     } 
     catch (e: any) 
@@ -55,11 +55,11 @@ class BibliotecarioController
   
   async updateBibliotecario(request: Request, response: Response) 
   {
-    const { } = request.body;
+    const {nome, cpf, email, senha, data_nasc, genero, endereco, telefone, data_admissao, formacao_academica} = request.body;
     const id = request.params.id;
     try 
     {
-      const bibliotecario = await BibliotecarioService.update(id);
+      const bibliotecario = await BibliotecarioService.update(id, nome, cpf, email, senha, data_nasc, genero, endereco, telefone, data_admissao, formacao_academica);
       return response.status(200).json(bibliotecario);
     } 
     catch (e: any) 

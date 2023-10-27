@@ -5,12 +5,12 @@ import { Usuario } from '../models/Usuario';
 class UsuarioService 
 {
   // Usuario dados para um Usuario no banco de dados
-  async create( )
+  async create(nome: string, cpf: string, email: string, senha: string, eh_estudante: number, data_nasc: Date, genero: string, endereco: string, telefone: string, tem_multa: number)
   {
     // estabelece conexão com banco de dados
     const connection = await getConnection();
     const UsuarioRepo: UsuarioRepository = connection.getCustomRepository(UsuarioRepository);
-    const Usuario: any = { }; // cria objeto com os dados do Usuario
+    const Usuario: any = {nome, cpf, email, senha, eh_estudante, data_nasc, genero, endereco, telefone, tem_multa}; // cria objeto com os dados do Usuario
     
     try 
     {
@@ -73,7 +73,7 @@ class UsuarioService
   }
 
   // atualiza dados no banco
-  async update(id: any) 
+  async update(id: any, nome: string, cpf: string, email: string, senha: string, eh_estudante: number, data_nasc: Date, genero: string, endereco: string, telefone: string, tem_multa: number) 
   {
     const connection = await getConnection();
     const UsuarioRepo: UsuarioRepository = connection.getCustomRepository(UsuarioRepository);

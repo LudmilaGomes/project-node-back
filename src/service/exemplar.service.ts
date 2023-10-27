@@ -5,12 +5,12 @@ import { Exemplar } from '../models/Exemplar';
 class exemplarService 
 {
   // exemplar dados para um exemplar no banco de dados
-  async create( )
+  async create(id_livro: number, quantidade: number)
   {
     // estabelece conexão com banco de dados
     const connection = await getConnection();
     const exemplarRepo: exemplarRepository = connection.getCustomRepository(exemplarRepository);
-    const exemplar: any = { }; // cria objeto com os dados do exemplar
+    const exemplar: any = {id_livro, quantidade}; // cria objeto com os dados do exemplar
     
     try 
     {
@@ -73,7 +73,7 @@ class exemplarService
   }
 
   // atualiza dados no banco
-  async update(id_livro: any) 
+  async update(id_livro: any, quantidade: number) 
   {
     const connection = await getConnection();
     const exemplarRepo: exemplarRepository = connection.getCustomRepository(exemplarRepository);

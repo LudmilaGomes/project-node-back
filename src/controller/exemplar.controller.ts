@@ -3,12 +3,12 @@ import { Request, Response } from 'express';
 
 class ExemplarController
 {
-  async create(request: Request, response: Response) 
+  async create(request: Request, response: Response)
   {
-    const { } = request.body;
+    const {id_livro, quantidade} = request.body;
     try 
     {
-      const exemplar = await ExemplarService.create( );
+      const exemplar = await ExemplarService.create(id_livro, quantidade);
       return response.status(200).json(exemplar);
     } 
     catch (e: any) 
@@ -55,11 +55,11 @@ class ExemplarController
   
   async updateExemplar(request: Request, response: Response) 
   {
-    const {  } = request.body;
+    const {quantidade} = request.body;
     const id_livro = request.params.id;
     try 
     {
-      const exemplar = await ExemplarService.update(id_livro);
+      const exemplar = await ExemplarService.update(id_livro, quantidade);
       return response.status(200).json(exemplar);
     } 
     catch (e: any) 

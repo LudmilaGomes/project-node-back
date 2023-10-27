@@ -5,7 +5,7 @@ import { Emprestimo } from '../models/Emprestimo';
 class EmprestimoService 
 {
   // Emprestimo dados para um Emprestimo no banco de dados
-  async create( )
+  async create(id_usuario: string, id_exemplar: string, id_bibliotecario: string, data_realizacao: Date, data_devolucao: Date, tem_multa: number)
   {
     // estabelece conexão com banco de dados
     const connection = await getConnection();
@@ -73,7 +73,7 @@ class EmprestimoService
   }
 
   // atualiza dados no banco
-  async update(id: any) 
+  async update(id: any, id_usuario: string, id_exemplar: string, id_bibliotecario: string, data_realizacao: Date, data_devolucao: Date, tem_multa: number) 
   {
     const connection = await getConnection();
     const EmprestimoRepo: EmprestimoRepository = connection.getCustomRepository(EmprestimoRepository);

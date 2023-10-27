@@ -5,10 +5,10 @@ class MultaController
 {
   async create(request: Request, response: Response) 
   {
-    const { } = request.body;
+    const {id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga} = request.body;
     try 
     {
-      const multa = await MultaService.create( );
+      const multa = await MultaService.create(id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga);
       return response.status(200).json(multa);
     } 
     catch (e: any) 
@@ -55,11 +55,11 @@ class MultaController
   
   async updateMulta(request: Request, response: Response) 
   {
-    const {  } = request.body;
+    const {id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga} = request.body;
     const id = request.params.id;
     try 
     {
-      const multa = await MultaService.update(id);
+      const multa = await MultaService.update(id, id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga);
       return response.status(200).json(multa);
     } 
     catch (e: any) 

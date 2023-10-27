@@ -5,12 +5,12 @@ import { Bibliotecario } from '../models/Bibliotecario';
 class BibliotecarioService 
 {
   // Bibliotecario dados para um Bibliotecario no banco de dados
-  async create( )
+  async create(nome: string, cpf: string, email: string, senha: string, data_nasc: Date, genero: string, endereco: string, telefone: string, data_admissao: Date, formacao_academica: string)
   {
     // estabelece conexão com banco de dados
     const connection = await getConnection();
     const BibliotecarioRepo: BibliotecarioRepository = connection.getCustomRepository(BibliotecarioRepository);
-    const Bibliotecario: any = { }; // cria objeto com os dados do Bibliotecario
+    const Bibliotecario: any = {nome, cpf, email, senha, data_nasc, genero, endereco, telefone, data_admissao, formacao_academica}; // cria objeto com os dados do Bibliotecario
     
     try 
     {
@@ -73,7 +73,7 @@ class BibliotecarioService
   }
 
   // atualiza dados no banco
-  async update(id: any) 
+  async update(id: any, nome: string, cpf: string, email: string, senha: string, data_nasc: Date, genero: string, endereco: string, telefone: string, data_admissao: Date, formacao_academica: string)
   {
     const connection = await getConnection();
     const BibliotecarioRepo: BibliotecarioRepository = connection.getCustomRepository(BibliotecarioRepository);
