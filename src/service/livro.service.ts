@@ -2,6 +2,7 @@ import { getConnection } from 'typeorm';
 import LivroRepository from '../repositories/livro';
 import AutorRepository from '../repositories/autor';
 import EditoraRepository from '../repositories/editora';
+import ExemplarRepository from '../repositories/exemplar';
 
 class LivroService 
 {
@@ -11,6 +12,7 @@ class LivroService
     // estabelece conexão com banco de dados
     const connection = await getConnection();
     const livroRepo: LivroRepository = connection.getCustomRepository(LivroRepository);
+    const exemplarRepo: ExemplarRepository = connection.getCustomRepository(ExemplarRepository);
     const autorRepo: AutorRepository = connection.getCustomRepository(AutorRepository);
     const editoraRepo: EditoraRepository = connection.getCustomRepository(EditoraRepository);
     
@@ -40,8 +42,11 @@ class LivroService
 
       const livro = {nome, cod_autor, cod_editora, descricao, quantidade, data_public, genero, volume, edicao};
       const livroDb: any = await livroRepo.save(livro);
+      const id_livro = livroDb.id;
+      const exemplar = {id_livro, quantidade};
+      const exemplarDb: any = await exemplarRepo.save(exemplar);
 
-      if (livroDb)
+      if (livroDb && exemplarDb)
         return livroDb;
       else
         throw new Error('Operação não pode ser realizada!');

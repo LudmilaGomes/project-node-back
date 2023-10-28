@@ -53,7 +53,7 @@ class BibliotecarioService
   }
 
   // retorna apenas um Bibliotecario pela identificação (seu id)
-  async readBibliotecario(id: any) 
+  async readBibliotecario(id: any)
   {
     const connection = await getConnection();
     const BibliotecarioRepo: BibliotecarioRepository = connection.getCustomRepository(BibliotecarioRepository);
@@ -72,7 +72,7 @@ class BibliotecarioService
     }
   }
 
-  // atualiza dados no banco
+  // atualiza dados no banco;
   async update(id: any, nome: string, cpf: string, email: string, senha: string, data_nasc: Date, genero: string, endereco: string, telefone: string, data_admissao: Date, formacao_academica: string)
   {
     const connection = await getConnection();
@@ -89,9 +89,16 @@ class BibliotecarioService
       const BibliotecarioDb: any = await BibliotecarioRepo.update(
         { id, },
         {
-          // nome: nome ? nome : getBibliotecario.nome,
-          // data_nasc: data_nasc ? data_nasc : getBibliotecario.data_nasc,
-          // nacionalidade: nacionalidade ? nacionalidade : getBibliotecario.nacionalidade
+          nome: nome ? nome : getBibliotecario.nome, 
+          cpf: cpf ? cpf : getBibliotecario.cpf, 
+          email: email ? email : getBibliotecario.email, 
+          senha: senha ? senha : getBibliotecario.senha, 
+          data_nasc: data_nasc ? data_nasc : getBibliotecario.data_nasc, 
+          genero: genero ? genero : getBibliotecario.genero, 
+          endereco: endereco ? endereco : getBibliotecario.endereco, 
+          telefone: telefone ? telefone : getBibliotecario.telefone, 
+          data_admissao: data_admissao ? data_admissao : getBibliotecario.data_admissao, 
+          formacao_academica: formacao_academica ? formacao_academica : getBibliotecario.formacao_academica
         }
       );
 

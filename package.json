@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Biblioteca Virtual",
   "main": "index.js",
-  // "type": "module",
   "scripts": {
     "local": "cross-env NODE_ENV=dev ts-node-dev --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
     "dev": "cross-env NODE_ENV=qa HTTPS=true ts-node-dev --transpile-only --ignore-watch node_modules --no-notify src/server.ts",

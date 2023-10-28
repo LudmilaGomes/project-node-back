@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import enviromentConfig from '../config/enviroment.config';
 
-import { AutorController, EditoraController, LivroController } from '../controller/index.controller';
+import { AutorController, EditoraController, LivroController, BibliotecarioController, EmprestimoController, ExemplarController, MultaController, UsuarioController } from '../controller/index.controller';
 import { AutorValidation, EditoraValidation, LivroValidation } from '../middlewares/validations/index.middleware';
 
 const routes = Router();
@@ -22,6 +22,20 @@ routes.get('/autor/:id', AutorValidation.readAutor, AutorController.readAutor);
 routes.put('/autor/:id', AutorValidation.updateAutor, AutorController.updateAutor); 
 routes.delete('/autor/:id', AutorValidation.deleteAutor, AutorController.deleteAutor); 
 routes.get('/autor/busca/:nome', AutorValidation.searchAutor, AutorController.searchByNameAutor); 
+
+routes.post('/bibliot/', BibliotecarioController.create); 
+routes.get('/bibliot/', BibliotecarioController.readBibliotecarios); 
+routes.get('/bibliot/:id', BibliotecarioController.readBibliotecario); 
+routes.put('/bibliot/:id', BibliotecarioController.updateBibliotecario); 
+routes.delete('/bibliot/:id', BibliotecarioController.deleteBibliotecario); 
+routes.get('/bibliot/busca/:nome', BibliotecarioController.searchByNameBibliotecario); 
+
+// routes.post('/insere/', ); 
+// routes.get('/insere/', ); 
+// routes.get('/insere/:id', ); 
+// routes.put('/insere/:id', ); 
+// routes.delete('/insere/:id', ); 
+// routes.get('/insere/busca/:nome', ); 
 
 routes.post('/editora/', EditoraValidation.createEditora, EditoraController.create); 
 routes.get('/editora/', EditoraController.readEditoras); 
