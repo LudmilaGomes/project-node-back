@@ -75,6 +75,10 @@ class AutorService
   // atualiza dados no banco
   async update(id: any, nome: string, data_nasc: string, nacionalidade: string) 
   {
+    console.log(id);
+    console.log(nome);
+    console.log(data_nasc);
+    console.log(nacionalidade);
     const connection = await getConnection();
     const autorRepo: AutorRepository = connection.getCustomRepository(AutorRepository);
 
@@ -134,6 +138,7 @@ class AutorService
 
   async searchByNameAutor(nome_autor: string) 
   {
+    console.log(nome_autor);
     const connection = await getConnection();
     const autorRepo: AutorRepository = connection.getCustomRepository(AutorRepository);
     try 
@@ -146,6 +151,7 @@ class AutorService
       if(!busca_autor) // verifica se ocorreu algum erro na operação
         throw new Error('Autor não encontrado!');
 
+      console.log(busca_autor);
       return busca_autor;
     } 
     catch (e: any) 

@@ -33,6 +33,30 @@ class BibliotecarioService
     }
   }
 
+  async loginBibliotecario(email: string, senha: string)
+  {
+    const connection = await getConnection();
+    const BibliotecarioRepo: BibliotecarioRepository = connection.getCustomRepository(BibliotecarioRepository);
+    try 
+    {
+      // verifica o usuário se existe
+      const verifica_bibliot: any = await BibliotecarioRepo.findOne({ email });
+      if (!verifica_bibliot)
+        throw new Error('Operação não pode ser realizada');
+
+      // verifica se usuário existente tem a senha enviada
+      if (verifica_bibliot.senha != senha)
+        throw new Error('Operação não pode ser realizada');
+
+      // retorna id do bibliotecario e a string 'bibliotecario'; informações usadas no programa interativo
+      return [verifica_bibliot.id, "bibliotecario"];
+    } 
+    catch (e: any) 
+    {
+      throw new Error(e.message);
+    }    
+  }
+
   // retorna todos os Bibliotecarioes
   async readBibliotecarios()
   {

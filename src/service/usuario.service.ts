@@ -5,11 +5,20 @@ import { Usuario } from '../models/Usuario';
 class UsuarioService 
 {
   // Usuario dados para um Usuario no banco de dados
-  async create(nome: string, cpf: string, email: string, senha: string, eh_estudante: number, data_nasc: Date, genero: string, endereco: string, telefone: string, tem_multa: number)
+  async create(nome: string, cpf: string, email: string, senha: string, info_estudante: any, data_nasc: Date, genero: string, endereco: string, telefone: string)
   {
     // estabelece conexão com banco de dados
     const connection = await getConnection();
     const UsuarioRepo: UsuarioRepository = connection.getCustomRepository(UsuarioRepository);
+    // verifica se é estudante ou não; a partir de resposta do usuário, indica 0 ou 1
+    var eh_estudante;
+    if (info_estudante == "sim" || info_estudante == "s") 
+      eh_estudante = 1;
+    else if (info_estudante == "nao" || info_estudante == "n") 
+      eh_estudante = 0;
+    else
+      throw new Error('Entrada \"estudante\" inválida');
+    const tem_multa = 0; // ao ser cadastrado, usuário não possui multa
     const Usuario: any = {nome, cpf, email, senha, eh_estudante, data_nasc, genero, endereco, telefone, tem_multa}; // cria objeto com os dados do Usuario
     
     try 
@@ -26,6 +35,30 @@ class UsuarioService
         return UsuarioDb;
       else
         throw new Error('Operação não pode ser realizada!');
+    } 
+    catch (e: any) 
+    {
+      throw new Error(e.message);
+    }
+  }
+
+  async loginUsuario(email: string, senha: string)
+  {
+    const connection = await getConnection();
+    const UsuarioRepo: UsuarioRepository = connection.getCustomRepository(UsuarioRepository);
+    try 
+    {
+      // verifica o usuário se existe
+      const verifica_usuario: any = await UsuarioRepo.findOne({ email });
+      if (!verifica_usuario)
+        throw new Error('Operação não pode ser realizada');
+
+      // verifica se usuário existente tem a senha enviada
+      if (verifica_usuario.senha != senha)
+        throw new Error('Operação não pode ser realizada');
+
+      // retorna id do usuário e a string 'usuario'; informações usadas no programa interativo
+      return [verifica_usuario.id, "usuario"];
     } 
     catch (e: any) 
     {
@@ -89,9 +122,15 @@ class UsuarioService
       const UsuarioDb: any = await UsuarioRepo.update(
         { id, },
         {
-          // nome: nome ? nome : getUsuario.nome,
-          // data_nasc: data_nasc ? data_nasc : getUsuario.data_nasc,
-          // nacionalidade: nacionalidade ? nacionalidade : getUsuario.nacionalidade
+          nome: nome ? nome : getUsuario.nome, 
+          cpf: cpf ? cpf : getUsuario.cpf, 
+          email: email ? email : getUsuario.email, 
+          senha: senha ? senha : getUsuario.senha, 
+          data_nasc: data_nasc ? data_nasc : getUsuario.data_nasc, 
+          genero: genero ? genero : getUsuario.genero, 
+          endereco: endereco ? endereco : getUsuario.endereco, 
+          telefone: telefone ? telefone : getUsuario.telefone, 
+          eh_estudante: eh_estudante ? eh_estudante : getUsuario.eh_estudante
         }
       );
 

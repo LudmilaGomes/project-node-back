@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import enviromentConfig from '../config/enviroment.config';
 
-import { AutorController, EditoraController, LivroController, BibliotecarioController, EmprestimoController, ExemplarController, MultaController, UsuarioController } from '../controller/index.controller';
+import { AutorController, EditoraController, LivroController, BibliotecarioController, EmprestimoController, UsuarioController } from '../controller/index.controller';
 import { AutorValidation, EditoraValidation, LivroValidation } from '../middlewares/validations/index.middleware';
 
 const routes = Router();
@@ -16,12 +16,12 @@ routes.get('/socoro',async (request: Request, response: Response) => {
   }
 );
 
-routes.post('/autor/', AutorValidation.createAutor, AutorController.create); 
+routes.post('/autor/', /*AutorValidation.createAutor,*/ AutorController.create); 
 routes.get('/autor/', AutorController.readAutores); 
-routes.get('/autor/:id', AutorValidation.readAutor, AutorController.readAutor); 
-routes.put('/autor/:id', AutorValidation.updateAutor, AutorController.updateAutor); 
-routes.delete('/autor/:id', AutorValidation.deleteAutor, AutorController.deleteAutor); 
-routes.get('/autor/busca/:nome', AutorValidation.searchAutor, AutorController.searchByNameAutor); 
+routes.get('/autor/:id', /*AutorValidation.readAutor,*/ AutorController.readAutor); 
+routes.put('/autor/:id', /*AutorValidation.updateAutor,*/ AutorController.updateAutor); 
+routes.delete('/autor/:id', /*AutorValidation.deleteAutor,*/ AutorController.deleteAutor); 
+routes.get('/autor/busca/:nome', /*AutorValidation.searchAutor,*/ AutorController.searchByNameAutor); 
 
 routes.post('/bibliot/', BibliotecarioController.create); 
 routes.get('/bibliot/', BibliotecarioController.readBibliotecarios); 
@@ -30,12 +30,19 @@ routes.put('/bibliot/:id', BibliotecarioController.updateBibliotecario);
 routes.delete('/bibliot/:id', BibliotecarioController.deleteBibliotecario); 
 routes.get('/bibliot/busca/:nome', BibliotecarioController.searchByNameBibliotecario); 
 
-// routes.post('/insere/', ); 
-// routes.get('/insere/', ); 
-// routes.get('/insere/:id', ); 
-// routes.put('/insere/:id', ); 
-// routes.delete('/insere/:id', ); 
-// routes.get('/insere/busca/:nome', ); 
+routes.post('/usuario/', UsuarioController.create); 
+routes.get('/usuario/', UsuarioController.readUsuarios); 
+routes.get('/usuario/:id', UsuarioController.readUsuario); 
+routes.put('/usuario/:id', UsuarioController.updateUsuario); 
+routes.delete('/usuario/:id', UsuarioController.deleteUsuario); 
+routes.get('/usuario/busca/:nome', UsuarioController.searchByNameUsuario); 
+
+routes.post('/emprestimo/', EmprestimoController.create); 
+routes.get('/emprestimo/', EmprestimoController.readEmprestimos); 
+routes.get('/emprestimo/:id', EmprestimoController.readEmprestimo); 
+routes.put('/emprestimo/:id', EmprestimoController.updateEmprestimo); 
+routes.delete('/emprestimo/:id', EmprestimoController.deleteEmprestimo); 
+routes.get('/emprestimo/busca/:nome', EmprestimoController.searchByUsuarioEmprestimo); 
 
 routes.post('/editora/', EditoraValidation.createEditora, EditoraController.create); 
 routes.get('/editora/', EditoraController.readEditoras); 

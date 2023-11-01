@@ -33,16 +33,16 @@ class MultaService
     }
   }
 
-  // retorna todos os Multaes
+  // retorna todos os Multas
   async readMultas()
   {
     const connection = await getConnection();
     const MultaRepo: MultaRepository = connection.getCustomRepository(MultaRepository);
     try 
     {
-      const Multaes = await MultaRepo.find();
-      if (Multaes) // verifica se ocorreu algum erro na operação
-        return Multaes;
+      const Multas = await MultaRepo.find();
+      if (Multas) // verifica se ocorreu algum erro na operação
+        return Multas;
       else
         throw new Error('Operação não pode ser realizada!');
     } 
@@ -132,7 +132,7 @@ class MultaService
     }
   }
 
-  async searchByNameMulta(nome_Multa: string) 
+  async searchByUsuarioMulta(id_usuario: any) 
   {
     const connection = await getConnection();
     const MultaRepo: MultaRepository = connection.getCustomRepository(MultaRepository);
@@ -140,8 +140,8 @@ class MultaService
     {
       // verifica se Multa existe por nome_Multa
       const busca_Multa: any = await MultaRepo
-        .createQueryBuilder('Multa')
-        .where('Multa.nome = :nome', { nome: nome_Multa })
+        .createQueryBuilder('multa')
+        .where('multa.id_usuario = :id_usuario', { id_usuario: id_usuario })
         .getOne();
       if(!busca_Multa) // verifica se ocorreu algum erro na operação
         throw new Error('Multa não encontrado!');

@@ -5,10 +5,10 @@ class UsuarioController
 {
   async create(request: Request, response: Response) 
   {
-    const {nome, cpf, email, senha, eh_estudante, data_nasc, genero, endereco, telefone, tem_multa} = request.body;
+    const {nome, cpf, email, senha, info_estudante, data_nasc, genero, endereco, telefone} = request.body;
     try 
     {
-      const usuario = await UsuarioService.create(nome, cpf, email, senha, eh_estudante, data_nasc, genero, endereco, telefone, tem_multa);
+      const usuario = await UsuarioService.create(nome, cpf, email, senha, info_estudante, data_nasc, genero, endereco, telefone);
       return response.status(200).json(usuario);
     } 
     catch (e: any) 

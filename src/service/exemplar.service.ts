@@ -81,17 +81,15 @@ class exemplarService
     try 
     {
       // verifica se o exemplar relacionado ao id existe no banco
-      const getexemplar: any = await exemplarRepo.findOne(id_livro);
-      if (!getexemplar) // se não existir, retorna erro
+      const getExemplar: any = await exemplarRepo.findOne(id_livro);
+      if (!getExemplar) // se não existir, retorna erro
         throw new Error('exemplar não encontrado!');
 
       // atualiza o exemplar em questão com os dados enviados (não é obrigatório o envio de todos os dados)
       const exemplarDb: any = await exemplarRepo.update(
         { id_livro, },
         {
-          // nome: nome ? nome : getexemplar.nome,
-          // data_nasc: data_nasc ? data_nasc : getexemplar.data_nasc,
-          // nacionalidade: nacionalidade ? nacionalidade : getexemplar.nacionalidade
+          quantidade: quantidade ? quantidade : getExemplar.quantidade, 
         }
       );
 
