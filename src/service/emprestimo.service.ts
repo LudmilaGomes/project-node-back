@@ -6,7 +6,7 @@ import { ExemplarService } from './index.service';
 class EmprestimoService 
 {
   // Emprestimo dados para um Emprestimo no banco de dados
-  async create(id_usuario: string, id_exemplar: string)
+  async create(id_usuario: number, id_exemplar: number, id_bibliotecario: number)
   {
     // estabelece conexão com banco de dados
     const connection = await getConnection();
@@ -14,7 +14,6 @@ class EmprestimoService
     const ExemplarRepo: ExemplarRepository = connection.getCustomRepository(ExemplarRepository);
 
     // valores importantes para realização de empréstimo
-    const id_bibliotecario = 2; // bibliotecário único que está no banco de dados
     const data_realizacao = new Date(); // data de hoje
     // data de devolução é definida como: data de hoje + 1 mês
     const data_devolucao = new Date(data_realizacao.getFullYear(), (data_realizacao.getMonth()) + 1, data_realizacao.getDay());
@@ -96,7 +95,7 @@ class EmprestimoService
   }
 
   // atualiza dados no banco
-  async update(id: any, id_usuario: string, id_exemplar: string, id_bibliotecario: string, data_realizacao: Date, data_devolucao: Date, tem_multa: number) 
+  async update(id: any, tem_multa: number) 
   {
     const connection = await getConnection();
     const EmprestimoRepo: EmprestimoRepository = connection.getCustomRepository(EmprestimoRepository);
@@ -112,9 +111,7 @@ class EmprestimoService
       const EmprestimoDb: any = await EmprestimoRepo.update(
         { id, },
         {
-          // nome: nome ? nome : getEmprestimo.nome,
-          // data_nasc: data_nasc ? data_nasc : getEmprestimo.data_nasc,
-          // nacionalidade: nacionalidade ? nacionalidade : getEmprestimo.nacionalidade
+          tem_multa: tem_multa ? tem_multa : getEmprestimo.tem_multa,
         }
       );
 
@@ -155,7 +152,7 @@ class EmprestimoService
     }
   }
 
-  async searchByUsuarioEmprestimo(id_usuario: any) 
+  async searchByUsuarioEmprestimo(id: any) 
   {
     const connection = await getConnection();
     const EmprestimoRepo: EmprestimoRepository = connection.getCustomRepository(EmprestimoRepository);
@@ -164,10 +161,10 @@ class EmprestimoService
       // encontra empréstimos de um usuário
       const busca_Emprestimo: any = await EmprestimoRepo
         .createQueryBuilder('emprestimo')
-        .where('emprestimo.id_usuario = :id_usuario', { id_usuario: id_usuario })
-        .getRawMany();
+        .where('emprestimo.id_usuario = :id_usuario', { id_usuario: id })
+        .getMany();
       if(!busca_Emprestimo) // verifica se ocorreu algum erro na operação
-        throw new Error('Emprestimos não encontrado!');
+        throw new Error('Empréstimos não encontrados!');
 
       return busca_Emprestimo;
     } 

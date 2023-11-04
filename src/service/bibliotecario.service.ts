@@ -14,10 +14,16 @@ class BibliotecarioService
     
     try 
     {
-      // verifica se Bibliotecario já está cadastrado no banco de dados
-      const verif_aut = await BibliotecarioRepo.findOne(Bibliotecario);
-      if (verif_aut) // se Bibliotecario existir, então envia exceção
-        throw new Error('Bibliotecario já cadastrado!');
+      // verifica se Bibliotecario já está cadastrado no banco de dados:
+       // verifica se o email já foi usado para cadastro
+       const verifica_email = await BibliotecarioRepo.findOne({ email });
+       if (verifica_email) 
+         throw new Error('error_user_already_registered');
+ 
+       // verifica se a matrícula já foi usada para cadastro
+       const verifica_matricula = await BibliotecarioRepo.findOne({ cpf });
+       if (verifica_matricula)
+         throw new Error('error_user_already_registered');
 
       const BibliotecarioDb: any = await BibliotecarioRepo.save(Bibliotecario); // salva no banco
 
@@ -171,7 +177,7 @@ class BibliotecarioService
     {
       // verifica se Bibliotecario existe por nome_Bibliotecario
       const busca_Bibliotecario: any = await BibliotecarioRepo
-        .createQueryBuilder('Bibliotecario')
+        .createQueryBuilder('bibliotecario')
         .where('Bibliotecario.nome = :nome', { nome: nome_Bibliotecario })
         .getOne();
       if(!busca_Bibliotecario) // verifica se ocorreu algum erro na operação

@@ -19,6 +19,23 @@ class BibliotecarioController
       return response.status(500).json(e.message);
     }
   }
+  
+  async loginBibliotecario(request: Request, response: Response) 
+  {
+    const {email, senha} = request.body;
+    try 
+    {
+      const bibliotecario = await BibliotecarioService.loginBibliotecario(email, senha);
+      return response.status(200).json(bibliotecario);
+    } 
+    catch (e: any) 
+    {
+      if (e.message == '' || e.message == '' || e.message == '')
+        return response.status(409).json(e.message);
+
+      return response.status(500).json(e.message);
+    }
+  }
 
   async readBibliotecarios(request: Request, response: Response) 
   {

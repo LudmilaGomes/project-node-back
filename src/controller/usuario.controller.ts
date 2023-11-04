@@ -19,6 +19,23 @@ class UsuarioController
       return response.status(500).json(e.message);
     }
   }
+  
+  async loginUsuario(request: Request, response: Response) 
+  {
+    const {email, senha} = request.body;
+    try 
+    {
+      const usuario = await UsuarioService.loginUsuario(email, senha);
+      return response.status(200).json(usuario);
+    } 
+    catch (e: any) 
+    {
+      if (e.message == '' || e.message == '' || e.message == '')
+        return response.status(409).json(e.message);
+
+      return response.status(500).json(e.message);
+    }
+  }
 
   async readUsuarios(request: Request, response: Response) 
   {

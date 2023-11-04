@@ -5,10 +5,27 @@ class MultaController
 {
   async create(request: Request, response: Response) 
   {
-    const {id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga} = request.body;
+    const {id_emprestimo} = request.body;
     try 
     {
-      const multa = await MultaService.create(id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga);
+      const multa = await MultaService.create(id_emprestimo);
+      return response.status(200).json(multa);
+    } 
+    catch (e: any) 
+    {
+      if (e.message == '' || e.message == '' || e.message == '')
+        return response.status(409).json(e.message);
+
+      return response.status(500).json(e.message);
+    }
+  }
+  
+  async updateValorMulta(request: Request, response: Response) 
+  {
+    const id = request.params.id;
+    try 
+    {
+      const multa = await MultaService.updateValorMulta(id);
       return response.status(200).json(multa);
     } 
     catch (e: any) 
@@ -53,13 +70,12 @@ class MultaController
     }
   }
   
-  async updateMulta(request: Request, response: Response) 
+  async updateStatusMulta(request: Request, response: Response) 
   {
-    const {id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga} = request.body;
     const id = request.params.id;
     try 
     {
-      const multa = await MultaService.update(id, id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga);
+      const multa = await MultaService.updateStatusMulta(id);
       return response.status(200).json(multa);
     } 
     catch (e: any) 
@@ -70,30 +86,13 @@ class MultaController
       return response.status(500).json(e.message);
     }
   }
-  
-  async deleteMulta(request: Request, response: Response) 
+
+  async searchByUsuarioMulta(request: Request, response: Response) 
   {
-    const id = request.params.id;
+    const id = request.params.nome;
     try 
     {
-      const multa = await MultaService.delete(id);
-      return response.status(200).json(multa);
-    } 
-    catch (e: any) 
-    {
-      if (e.message == '' || e.message == '') 
-        return response.status(409).json(e.message);
-
-      return response.status(500).json(e.message);
-    }
-  }
-
-  async searchByNameMulta(request: Request, response: Response) 
-  {
-    const nome_multa = request.params.nome;
-    try 
-    {
-      const multa = await MultaService.searchByNameMulta(nome_multa);
+      const multa = await MultaService.searchByUsuarioMulta(id);
       return response.status(200).json(multa);
     } 
     catch (e: any) 

@@ -3,12 +3,12 @@ import { Request, Response } from 'express';
 
 class EmprestimoController
 {
-  async create(request: Request, response: Response) 
+  async create(request: Request, response: Response)
   {
-    const {id_usuario, id_exemplar} = request.body;
+    const {id_usuario, id_exemplar, id_bibliotecario} = request.body;
     try 
     {
-      const emprestimo = await EmprestimoService.create(id_usuario, id_exemplar);
+      const emprestimo = await EmprestimoService.create(id_usuario, id_exemplar, id_bibliotecario);
       return response.status(200).json(emprestimo);
     } 
     catch (e: any) 
@@ -38,7 +38,7 @@ class EmprestimoController
   
   async readEmprestimo(request: Request, response: Response) 
   {
-    const id = request.params.id;
+    const id = request.params.id; // id do empréstimo
     try 
     {
       const emprestimo = await EmprestimoService.readEmprestimo(id);
@@ -55,11 +55,11 @@ class EmprestimoController
   
   async updateEmprestimo(request: Request, response: Response) 
   {
-    const {id_usuario, id_exemplar, id_bibliotecario, data_realizacao, data_devolucao, tem_multa} = request.body;
+    const {tem_multa} = request.body; // atualiza se emprestimo tem multa
     const id = request.params.id;
     try 
     {
-      const emprestimo = await EmprestimoService.update(id, id_usuario, id_exemplar, id_bibliotecario, data_realizacao, data_devolucao, tem_multa);
+      const emprestimo = await EmprestimoService.update(id, tem_multa);
       return response.status(200).json(emprestimo);
     } 
     catch (e: any) 
@@ -90,10 +90,10 @@ class EmprestimoController
 
   async searchByUsuarioEmprestimo(request: Request, response: Response) 
   {
-    const nome_emprestimo = request.params.nome;
+    const id = request.params.id; // id do usuário
     try 
     {
-      const emprestimo = await EmprestimoService.searchByUsuarioEmprestimo(nome_emprestimo);
+      const emprestimo = await EmprestimoService.searchByUsuarioEmprestimo(id);
       return response.status(200).json(emprestimo);
     } 
     catch (e: any) 

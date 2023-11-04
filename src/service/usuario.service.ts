@@ -23,10 +23,16 @@ class UsuarioService
     
     try 
     {
-      // verifica se Usuario já está cadastrado no banco de dados
-      const verif_aut = await UsuarioRepo.findOne(Usuario);
-      if (verif_aut) // se Usuario existir, então envia exceção
-        throw new Error('Usuario já cadastrado!');
+      // verifica se Usuario já está cadastrado no banco de dados:
+      // verifica se o email já foi usado para cadastro
+      const verifica_email = await UsuarioRepo.findOne({ email });
+      if (verifica_email) 
+        throw new Error('error_user_already_registered');
+
+      // verifica se a matrícula já foi usada para cadastro
+      const verifica_matricula = await UsuarioRepo.findOne({ cpf });
+      if (verifica_matricula)
+        throw new Error('error_user_already_registered');
 
       const UsuarioDb: any = await UsuarioRepo.save(Usuario); // salva no banco
 
