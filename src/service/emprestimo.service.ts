@@ -5,7 +5,7 @@ import { ExemplarService } from './index.service';
 
 class EmprestimoService 
 {
-  // Emprestimo dados para um Emprestimo no banco de dados
+  // Insere dados para um Emprestimo no banco de dados
   async create(id_usuario: number, id_exemplar: number, id_bibliotecario: number)
   {
     // estabelece conexão com banco de dados
@@ -18,8 +18,10 @@ class EmprestimoService
     // data de devolução é definida como: data de hoje + 1 mês
     const data_devolucao = new Date(data_realizacao.getFullYear(), (data_realizacao.getMonth()) + 1, data_realizacao.getDay());
     const tem_multa = 0; // empréstimo cadastrado não possui multa
+    const livro_devolvido = 0; // empréstimo que acabou de ser cadastrado não teve livro devolvido
+    const status = 'andamento';
 
-    const Emprestimo: any = {id_usuario, id_exemplar, id_bibliotecario, tem_multa, data_realizacao, data_devolucao}; // cria objeto com os dados do Emprestimo
+    const Emprestimo: any = {id_usuario, id_exemplar, id_bibliotecario, tem_multa, data_realizacao, data_devolucao, livro_devolvido, status}; // cria objeto com os dados do Emprestimo
     
     try 
     {
@@ -31,12 +33,12 @@ class EmprestimoService
       if(!busca_Exemplar) // verifica se ocorreu algum erro na operação
         throw new Error('Exemplar não encontrado!');
 
-      // verifica se quantidade de exemplares é menor que 5 - 5 é a quantidade crítica
+      // verifica se quantidade de exemplares é menor que 5 | 5 é a quantidade crítica
       // não pode deixar faltar exemplares de um livro e o limite estabelecido foi 5
-      if (busca_Exemplar.quantidade == 5) 
+      if (busca_Exemplar.quantidade == 5)
         throw new Error('Quantidade de exemplares é mínima e o empréstimo não pode ser feito!');
 
-      // se não há erro, atualizamos o valor da quantidade de livros (-1)
+      // se não há erro, atualizamos o valor da quantidade de livros (quantidade - 1)
       const atualiza_exemplar = await ExemplarService.update(id_exemplar, (busca_Exemplar.quantidade - 1));
       if (!atualiza_exemplar) 
         throw new Error('Operação não pode ser realizada!');
@@ -75,7 +77,7 @@ class EmprestimoService
   }
 
   // retorna apenas um Emprestimo pela identificação (seu id)
-  async readEmprestimo(id: any) 
+  async readEmprestimo(id: any)
   {
     const connection = await getConnection();
     const EmprestimoRepo: EmprestimoRepository = connection.getCustomRepository(EmprestimoRepository);
@@ -94,8 +96,8 @@ class EmprestimoService
     }
   }
 
-  // atualiza dados no banco
-  async update(id: any, tem_multa: number) 
+  // indica no banco de dados que o livro foi devolvido
+  async updateLivroDevolvido(id: any) // id do empréstimo
   {
     const connection = await getConnection();
     const EmprestimoRepo: EmprestimoRepository = connection.getCustomRepository(EmprestimoRepository);
@@ -107,19 +109,35 @@ class EmprestimoService
       if (!getEmprestimo) // se não existir, retorna erro
         throw new Error('Emprestimo não encontrado!');
 
-      // atualiza o Emprestimo em questão com os dados enviados (não é obrigatório o envio de todos os dados)
+      // atualiza o Emprestimo
       const EmprestimoDb: any = await EmprestimoRepo.update(
         { id, },
         {
-          tem_multa: tem_multa ? tem_multa : getEmprestimo.tem_multa,
+          livro_devolvido: 1,
+          status: 'concluido'
         }
       );
+
+      const busca_Emprestimo: any = await EmprestimoRepo
+        .createQueryBuilder('emprestimo')
+        .where('emprestimo.id = :id', { id: id })
+        .innerJoin('emprestimo.id_exemplar', 'exemplar')
+        .getMany();
+      if(!busca_Emprestimo) // verifica se ocorreu algum erro na operação
+        throw new Error('Empréstimos não encontrados!');
+
+      const id_exemplar = busca_Emprestimo.id_exemplar.id;
+      const quant_exemplar = busca_Emprestimo.id_exemplar.quantidade;
+
+      const atualiza_exemplar = await ExemplarService.update(id_exemplar, (quant_exemplar + 1));
+      if (!atualiza_exemplar)
+        throw new Error('Operação não pode ser realizada!');
 
       if (EmprestimoDb) // verifica se ocorreu algum erro na operação
         return EmprestimoDb;
       else
         throw new Error('Operação não pode ser realizada!');
-    } 
+    }
     catch (e: any) 
     {
       throw new Error(e.message);

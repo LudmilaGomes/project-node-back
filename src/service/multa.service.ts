@@ -26,17 +26,28 @@ class MultaService
         .where('emprestimo.id = :id', { id: id_emprestimo })
         .innerJoinAndSelect('emprestimo.id_usuario', 'usuario')
         .innerJoinAndSelect('emprestimo.tem_multa', 'estado_bool')
+        .innerJoinAndSelect('emprestimo.livro_devolvido', 'estado_bool')
         .getOne();
 
       const id_usuario = busca_Emprestimo.id_usuario.id;
       const data_limite: Date = busca_Emprestimo.data_devolucao;
       const data_hoje = new Date();
+      const livro_devolvido = busca_Emprestimo.livro_devolvido.id;
       
-      if (data_hoje < data_limite) // livro foi entregue não há multa
+      if (data_hoje < data_limite) // prazo para entrega não foi atingido
       {
+        // não há multa, pois data limite para entrega não foi alcançado
         console.log(`Não há multa para o empréstimo de id ${id_emprestimo}.`);
         return; // função para de executar pois não há multa para ser salva
       }
+
+      if (livro_devolvido == 1) // livro foi entregue
+      {
+        // não há multa, pois livro foi entregue
+        console.log(`Não há multa para o empréstimo de id ${id_emprestimo}.`);
+        return; // função para de executar pois não há multa para ser salva
+      }
+
       // usuário não devolveu livro e pagará multa
       // verifica se empréstimo já tem multa
       if (busca_Emprestimo.tem_multa.id == 1) // se Multa existir, então envia exceção

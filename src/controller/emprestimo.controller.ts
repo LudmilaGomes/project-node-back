@@ -53,13 +53,13 @@ class EmprestimoController
     }
   }
   
-  async updateEmprestimo(request: Request, response: Response) 
+  async updateLivroDevolvido(request: Request, response: Response) 
   {
     const {tem_multa} = request.body; // atualiza se emprestimo tem multa
     const id = request.params.id;
     try 
     {
-      const emprestimo = await EmprestimoService.update(id, tem_multa);
+      const emprestimo = await EmprestimoService.updateLivroDevolvido(id);
       return response.status(200).json(emprestimo);
     } 
     catch (e: any) 

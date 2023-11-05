@@ -56,7 +56,7 @@ routes.delete('/usuario/:id', UsuarioController.deleteUsuario);
 routes.post('/emprestimo/', EmprestimoController.create); 
 routes.get('/emprestimo/', EmprestimoController.readEmprestimos); 
 routes.get('/emprestimo/:id', EmprestimoController.readEmprestimo); 
-routes.put('/emprestimo/:id', EmprestimoController.updateEmprestimo); 
+routes.put('/emprestimo/:id', EmprestimoController.updateLivroDevolvido); 
 routes.get('/emprestimo/busca/:id', EmprestimoController.searchByUsuarioEmprestimo); 
 
 routes.post('/multa/', MultaController.create); 
