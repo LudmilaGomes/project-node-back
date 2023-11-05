@@ -60,7 +60,6 @@ routes.put('/emprestimo/:id', EmprestimoController.updateLivroDevolvido);
 routes.get('/emprestimo/busca/:id', EmprestimoController.searchByUsuarioEmprestimo); 
 
 routes.post('/multa/', MultaController.create); 
-routes.post('/multa/', MultaController.updateValorMulta); 
 routes.get('/multa/', MultaController.readMultas); 
 routes.put('/multa/valor/:id', MultaController.updateValorMulta); 
 routes.put('/multa/status/:id', MultaController.updateStatusMulta); 
