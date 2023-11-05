@@ -21,36 +21,41 @@ class MultaService
     
     try
     {
-      const busca_Emprestimo: any = await EmprestimoRepo
+      const busca_Emprestimo1: any = await EmprestimoRepo
         .createQueryBuilder('emprestimo')
         .where('emprestimo.id = :id', { id: id_emprestimo })
         .innerJoinAndSelect('emprestimo.id_usuario', 'usuario')
         .innerJoinAndSelect('emprestimo.tem_multa', 'estado_bool')
-        .innerJoinAndSelect('emprestimo.livro_devolvido', 'estado_bool')
         .getOne();
+        
+      const busca_Emprestimo2: any = await EmprestimoRepo
+      .createQueryBuilder('emprestimo')
+      .where('emprestimo.id = :id', { id: id_emprestimo })
+      .innerJoinAndSelect('emprestimo.livro_devolvido', 'estado_bool')
+      .getOne();
 
-      const id_usuario = busca_Emprestimo.id_usuario.id;
-      const data_limite: Date = busca_Emprestimo.data_devolucao;
+      const id_usuario = busca_Emprestimo1.id_usuario.id;
+      const data_limite: Date = busca_Emprestimo1.data_devolucao;
       const data_hoje = new Date();
-      const livro_devolvido = busca_Emprestimo.livro_devolvido.id;
+      const livro_devolvido = busca_Emprestimo2.livro_devolvido.id;
       
       if (data_hoje < data_limite) // prazo para entrega não foi atingido
       {
         // não há multa, pois data limite para entrega não foi alcançado
         console.log(`Não há multa para o empréstimo de id ${id_emprestimo}.`);
-        return; // função para de executar pois não há multa para ser salva
+        return 'Não há multa para o empréstimo'; // função para de executar pois não há multa para ser salva
       }
 
       if (livro_devolvido == 1) // livro foi entregue
       {
         // não há multa, pois livro foi entregue
         console.log(`Não há multa para o empréstimo de id ${id_emprestimo}.`);
-        return; // função para de executar pois não há multa para ser salva
+        return 'Não há multa para o empréstimo'; // função para de executar pois não há multa para ser salva
       }
 
       // usuário não devolveu livro e pagará multa
       // verifica se empréstimo já tem multa
-      if (busca_Emprestimo.tem_multa.id == 1) // se Multa existir, então envia exceção
+      if (busca_Emprestimo1.tem_multa.id == 1) // se Multa existir, então envia exceção
       {
         console.log('Multa já existe no sistema!');
         return;
@@ -105,8 +110,18 @@ class MultaService
       const Multa = await MultaRepo.findOne(id);
       if (!Multa) // se não existir, retorna erro
         throw new Error('Multa não encontrada!');
+        
+      const busca_Multa: any = await MultaRepo
+      .createQueryBuilder('multa')
+      .where('multa.id = :id', { id: id })
+      .innerJoinAndSelect('multa.multa_paga', 'estado_bool')
+      .getOne();
 
-      console.log(Multa);
+      if (busca_Multa.multa_paga.id == 1) // multa paga, não atualizamos o valor da multa
+      {
+        console.log('Multa foi paga!');
+        return 'Multa foi paga!';
+      }
 
       var dataHoje = new Date(Multa.data_hoje);
       var dataLimite = new Date(Multa.data_limite);
@@ -195,8 +210,6 @@ class MultaService
       .innerJoinAndSelect('multa.multa_paga', 'estado_bool')
       .getOne();
 
-      console.log(busca_Multa);
-
       // atualiza a Multa em questão
       const MultaDb: any = await MultaRepo.update(
         { id, },
@@ -214,7 +227,17 @@ class MultaService
         }
       );
 
-      if (MultaDb) // verifica se ocorreu algum erro na operação
+      // indica que empréstimo teve livro devolvido e a multa foi paga
+      const id_emprestimo = busca_Multa.id_emprestimo.id;
+      const emprestimo_concluido: any = await EmprestimoRepo.update(
+        { id: id_emprestimo, },
+        {
+          livro_devolvido: 1,
+          status: 'concluido'
+        }
+      );
+
+      if (MultaDb && usuario_tem_multa && emprestimo_concluido) // verifica se ocorreu algum erro na operação
         return MultaDb;
       else
         throw new Error('Operação não pode ser realizada!');

@@ -51,7 +51,6 @@ routes.get('/usuario/', UsuarioController.readUsuarios);
 routes.get('/usuario/:id', UsuarioController.readUsuario); 
 routes.put('/usuario/:id', UsuarioController.updateUsuario); 
 routes.delete('/usuario/:id', UsuarioController.deleteUsuario); 
-// routes.get('/usuario/busca/:nome', UsuarioController.searchByNameUsuario); 
 
 routes.post('/emprestimo/', EmprestimoController.create); 
 routes.get('/emprestimo/', EmprestimoController.readEmprestimos); 
@@ -63,6 +62,6 @@ routes.post('/multa/', MultaController.create);
 routes.get('/multa/', MultaController.readMultas); 
 routes.put('/multa/valor/:id', MultaController.updateValorMulta); 
 routes.put('/multa/status/:id', MultaController.updateStatusMulta); 
-routes.get('/emprestimo/busca/:id', MultaController.searchByUsuarioMulta); 
+routes.get('/multa/busca/:id', MultaController.searchByUsuarioMulta); 
 
 export default routes;

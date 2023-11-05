@@ -11,8 +11,11 @@ export class Estado_bool {
   @Column("character varying", { name: "nome" })
   nome: string;
 
-  @OneToMany(() => Emprestimo, (emprestimo) => emprestimo.tem_multa)
+  @OneToMany(() => Emprestimo, (emprestimo) => emprestimo.livro_devolvido)
   emprestimos: Emprestimo[];
+
+  @OneToMany(() => Emprestimo, (emprestimo) => emprestimo.tem_multa)
+  emprestimos2: Emprestimo[];
 
   @OneToMany(() => Multa, (multa) => multa.multa_paga)
   multas: Multa[];

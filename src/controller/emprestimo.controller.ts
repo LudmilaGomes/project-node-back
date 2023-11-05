@@ -55,7 +55,6 @@ class EmprestimoController
   
   async updateLivroDevolvido(request: Request, response: Response) 
   {
-    const {tem_multa} = request.body; // atualiza se emprestimo tem multa
     const id = request.params.id;
     try 
     {

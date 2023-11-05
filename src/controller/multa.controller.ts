@@ -89,7 +89,7 @@ class MultaController
 
   async searchByUsuarioMulta(request: Request, response: Response) 
   {
-    const id = request.params.nome;
+    const id = request.params.id;
     try 
     {
       const multa = await MultaService.searchByUsuarioMulta(id);

@@ -121,13 +121,14 @@ class EmprestimoService
       const busca_Emprestimo: any = await EmprestimoRepo
         .createQueryBuilder('emprestimo')
         .where('emprestimo.id = :id', { id: id })
-        .innerJoin('emprestimo.id_exemplar', 'exemplar')
+        // .innerJoin('emprestimo.id_exemplar', 'exemplar')
+        .innerJoinAndSelect('emprestimo.id_exemplar', 'exemplar')
         .getMany();
       if(!busca_Emprestimo) // verifica se ocorreu algum erro na operação
         throw new Error('Empréstimos não encontrados!');
 
-      const id_exemplar = busca_Emprestimo.id_exemplar.id;
-      const quant_exemplar = busca_Emprestimo.id_exemplar.quantidade;
+      const id_exemplar = busca_Emprestimo[0].id_exemplar.id_livro;
+      const quant_exemplar = busca_Emprestimo[0].id_exemplar.quantidade;
 
       const atualiza_exemplar = await ExemplarService.update(id_exemplar, (quant_exemplar + 1));
       if (!atualiza_exemplar)
