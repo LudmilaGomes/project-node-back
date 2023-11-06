@@ -22,10 +22,10 @@ class UsuarioController
   
   async loginUsuario(request: Request, response: Response) 
   {
-    const {email, senha} = request.body;
+    const {cpf, senha} = request.body;
     try 
     {
-      const usuario = await UsuarioService.loginUsuario(email, senha);
+      const usuario = await UsuarioService.loginUsuario(cpf, senha);
       return response.status(200).json(usuario);
     } 
     catch (e: any) 

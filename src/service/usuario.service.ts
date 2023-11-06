@@ -48,14 +48,14 @@ class UsuarioService
     }
   }
 
-  async loginUsuario(email: string, senha: string)
+  async loginUsuario(cpf: string, senha: string)
   {
     const connection = await getConnection();
     const UsuarioRepo: UsuarioRepository = connection.getCustomRepository(UsuarioRepository);
     try 
     {
       // verifica o usuário se existe
-      const verifica_usuario: any = await UsuarioRepo.findOne({ email });
+      const verifica_usuario: any = await UsuarioRepo.findOne({ cpf });
       if (!verifica_usuario)
         throw new Error('Operação não pode ser realizada');
 
@@ -112,7 +112,7 @@ class UsuarioService
   }
 
   // atualiza dados no banco
-  async update(id: any, nome: string, cpf: string, email: string, senha: string, eh_estudante: number, data_nasc: Date, genero: string, endereco: string, telefone: string, tem_multa: number) 
+  async update(id: any, nome: string, cpf: string, email: string, senha: string, info_estudante: string, data_nasc: Date, genero: string, endereco: string, telefone: string, tem_multa: number) 
   {
     const connection = await getConnection();
     const UsuarioRepo: UsuarioRepository = connection.getCustomRepository(UsuarioRepository);
@@ -120,9 +120,19 @@ class UsuarioService
     try 
     {
       // verifica se o Usuario relacionado ao id existe no banco
-      const getUsuario: any = await UsuarioRepo.findOne(id);
+      const getUsuario: any = await UsuarioRepo
+        .createQueryBuilder('usuario')
+        .where('usuario.id = :id', { id: id })
+        .innerJoinAndSelect('usuario.eh_estudante', 'estado_bool')
+        .getOne();
       if (!getUsuario) // se não existir, retorna erro
         throw new Error('Usuario não encontrado!');
+
+      var eh_estudante;
+      if (info_estudante == "sim" || info_estudante == "s") 
+        eh_estudante = 1;
+      else if (info_estudante == "nao" || info_estudante == "n") 
+        eh_estudante = 0;
 
       // atualiza o Usuario em questão com os dados enviados (não é obrigatório o envio de todos os dados)
       const UsuarioDb: any = await UsuarioRepo.update(
@@ -136,7 +146,7 @@ class UsuarioService
           genero: genero ? genero : getUsuario.genero, 
           endereco: endereco ? endereco : getUsuario.endereco, 
           telefone: telefone ? telefone : getUsuario.telefone, 
-          eh_estudante: eh_estudante ? eh_estudante : getUsuario.eh_estudante
+          eh_estudante: eh_estudante ? eh_estudante : getUsuario.eh_estudante.id
         }
       );
 

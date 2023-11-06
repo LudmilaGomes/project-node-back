@@ -36,64 +36,69 @@ class MultaService
 
       const id_usuario = busca_Emprestimo1.id_usuario.id;
       const data_limite: Date = busca_Emprestimo1.data_devolucao;
-      const data_hoje = new Date();
+      let data = new Date();
       const livro_devolvido = busca_Emprestimo2.livro_devolvido.id;
+
+      data = new Date(data);
+      const data_hoje: Date = data.toISOString().split('T')[0];
+
+      console.log(data_hoje, data_limite);
       
-      if (data_hoje < data_limite) // prazo para entrega não foi atingido
+      if (data_hoje < data_limite || livro_devolvido == 1) // prazo para entrega não foi atingido
       {
         // não há multa, pois data limite para entrega não foi alcançado
-        console.log(`Não há multa para o empréstimo de id ${id_emprestimo}.`);
+        // console.log(`Não há multa para o empréstimo de id ${id_emprestimo}.`);
         return 'Não há multa para o empréstimo'; // função para de executar pois não há multa para ser salva
       }
 
-      if (livro_devolvido == 1) // livro foi entregue
+      if (data_hoje > data_limite)
       {
-        // não há multa, pois livro foi entregue
-        console.log(`Não há multa para o empréstimo de id ${id_emprestimo}.`);
-        return 'Não há multa para o empréstimo'; // função para de executar pois não há multa para ser salva
-      }
-
-      // usuário não devolveu livro e pagará multa
-      // verifica se empréstimo já tem multa
-      if (busca_Emprestimo1.tem_multa.id == 1) // se Multa existir, então envia exceção
-      {
-        console.log('Multa já existe no sistema!');
-        return;
-      }
+        console.log('Há multa');
+        // usuário não devolveu livro e pagará multa
+        // verifica se empréstimo já tem multa
+        if (busca_Emprestimo1.tem_multa.id == 1) // se Multa existir, então envia exceção
+        {
+          console.log('Multa já existe no sistema!');
+          return;
+        }
+          
+        // indica que empréstimo tem multa no banco de dados
+        var id = id_emprestimo;
+        const emprestimo_tem_multa: any = await EmprestimoRepo.update(
+          { id, },
+          {
+            tem_multa: 1 // 1 - true; há multa relacionada ao empréstimo
+          }
+        );
         
-      // indica que empréstimo tem multa no banco de dados
-      var id = id_emprestimo;
-      const emprestimo_tem_multa: any = await EmprestimoRepo.update(
-        { id, },
-        {
-          tem_multa: 1 // 1 - true; há multa relacionada ao empréstimo
-        }
-      );
-      
-      // indica que usuário tem multa
-      id = id_usuario;
-      const usuario_tem_multa: any = await UsuarioRepo.update(
-        { id, },
-        {
-          tem_multa: 1 // 1 - true; há multa relacionada ao empréstimo
-        }
-      );
+        // indica que usuário tem multa
+        id = id_usuario;
+        const usuario_tem_multa: any = await UsuarioRepo.update(
+          { id, },
+          {
+            tem_multa: 1 // 1 - true; há multa relacionada ao empréstimo
+          }
+        );
 
-      if (!(emprestimo_tem_multa && usuario_tem_multa))
-        throw new Error('Operação não pode ser realizada!');
+        if (!(emprestimo_tem_multa && usuario_tem_multa))
+          throw new Error('Operação não pode ser realizada!');
 
-      const multa_paga = 0; // indica que a multa não foi paga
-      const valor_multa = 1;
+        const multa_paga = 0; // indica que a multa não foi paga
+        const valor_multa = 1;
 
-      const Multa: any = {id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga};
-      const MultaDb: any = await MultaRepo.save(Multa); // salva no banco
+        const Multa: any = {id_usuario, id_emprestimo, valor_multa, data_limite, data_hoje, multa_paga};
+        const MultaDb: any = await MultaRepo.save(Multa); // salva no banco
 
-      // para o caso de ocorrer algum erro na operação
-      if (MultaDb)
-        return MultaDb;
-      else
-        throw new Error('Operação não pode ser realizada!');
-    } 
+        // para o caso de ocorrer algum erro na operação
+        if (MultaDb)
+          return MultaDb;
+        else
+          throw new Error('Operação não pode ser realizada!');
+      }
+
+      console.log('Não há multa');
+      return 'Não há multa';
+    }
     catch (e: any) 
     {
       throw new Error(e.message);

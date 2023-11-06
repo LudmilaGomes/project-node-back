@@ -192,6 +192,28 @@ class EmprestimoService
       throw new Error(e.message);
     }
   }
+  
+  async searchByBibliotEmprestimo(id: any) 
+  {
+    const connection = await getConnection();
+    const EmprestimoRepo: EmprestimoRepository = connection.getCustomRepository(EmprestimoRepository);
+    try 
+    {
+      // encontra empréstimos de um usuário
+      const busca_Emprestimo: any = await EmprestimoRepo
+        .createQueryBuilder('emprestimo')
+        .where('emprestimo.id_bibliotecario = :id_bibliotecario', { id_bibliotecario: id })
+        .getMany();
+      if(!busca_Emprestimo) // verifica se ocorreu algum erro na operação
+        throw new Error('Empréstimos não encontrados!');
+
+      return busca_Emprestimo;
+    } 
+    catch (e: any) 
+    {
+      throw new Error(e.message);
+    }
+  }
 }
 
 export default new EmprestimoService();

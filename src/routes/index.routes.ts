@@ -56,7 +56,8 @@ routes.post('/emprestimo/', EmprestimoController.create);
 routes.get('/emprestimo/', EmprestimoController.readEmprestimos); 
 routes.get('/emprestimo/:id', EmprestimoController.readEmprestimo); 
 routes.put('/emprestimo/:id', EmprestimoController.updateLivroDevolvido); 
-routes.get('/emprestimo/busca/:id', EmprestimoController.searchByUsuarioEmprestimo); 
+routes.get('/emprestimo/busca/usuario/:id', EmprestimoController.searchByUsuarioEmprestimo); 
+routes.get('/emprestimo/busca/bibliot/:id', EmprestimoController.searchByBibliotEmprestimo); 
 
 routes.post('/multa/', MultaController.create); 
 routes.get('/multa/', MultaController.readMultas); 

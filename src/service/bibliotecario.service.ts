@@ -39,14 +39,14 @@ class BibliotecarioService
     }
   }
 
-  async loginBibliotecario(email: string, senha: string)
+  async loginBibliotecario(cpf: string, senha: string)
   {
     const connection = await getConnection();
     const BibliotecarioRepo: BibliotecarioRepository = connection.getCustomRepository(BibliotecarioRepository);
     try 
     {
       // verifica o usuário se existe
-      const verifica_bibliot: any = await BibliotecarioRepo.findOne({ email });
+      const verifica_bibliot: any = await BibliotecarioRepo.findOne({ cpf });
       if (!verifica_bibliot)
         throw new Error('Operação não pode ser realizada');
 

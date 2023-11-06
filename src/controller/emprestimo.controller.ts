@@ -103,6 +103,23 @@ class EmprestimoController
       return response.status(500).json(e.message);
     }
   }
+  
+  async searchByBibliotEmprestimo(request: Request, response: Response) 
+  {
+    const id = request.params.id; // id do usuário
+    try 
+    {
+      const emprestimo = await EmprestimoService.searchByBibliotEmprestimo(id);
+      return response.status(200).json(emprestimo);
+    } 
+    catch (e: any) 
+    {
+      if (e.message == '')
+        return response.status(409).json(e.message);
+
+      return response.status(500).json(e.message);
+    }
+  }
 }
 
 export default new EmprestimoController();

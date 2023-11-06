@@ -22,10 +22,10 @@ class BibliotecarioController
   
   async loginBibliotecario(request: Request, response: Response) 
   {
-    const {email, senha} = request.body;
+    const {cpf, senha} = request.body;
     try 
     {
-      const bibliotecario = await BibliotecarioService.loginBibliotecario(email, senha);
+      const bibliotecario = await BibliotecarioService.loginBibliotecario(cpf, senha);
       return response.status(200).json(bibliotecario);
     } 
     catch (e: any) 
