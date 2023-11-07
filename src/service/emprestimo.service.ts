@@ -2,6 +2,7 @@ import { getConnection, getRepository } from 'typeorm';
 import EmprestimoRepository from '../repositories/emprestimo';
 import ExemplarRepository from '../repositories/exemplar';
 import { ExemplarService } from './index.service';
+import UsuarioRepository from '../repositories/usuario';
 
 class EmprestimoService 
 {
@@ -12,6 +13,7 @@ class EmprestimoService
     const connection = await getConnection();
     const EmprestimoRepo: EmprestimoRepository = connection.getCustomRepository(EmprestimoRepository);
     const ExemplarRepo: ExemplarRepository = connection.getCustomRepository(ExemplarRepository);
+    const UsuarioRepo: UsuarioRepository = connection.getCustomRepository(UsuarioRepository);
 
     // valores importantes para realização de empréstimo
     const data_realizacao = new Date(); // data de hoje
@@ -32,6 +34,23 @@ class EmprestimoService
         .getOne();
       if(!busca_Exemplar) // verifica se ocorreu algum erro na operação
         throw new Error('Exemplar não encontrado!');
+
+      
+      // verifica se Usuário está cadastrado no banco de dados
+      const busca_Usuario: any = await UsuarioRepo
+        .createQueryBuilder('usuario')
+        .where('usuario.id = :id', { id: id_usuario })
+        .innerJoinAndSelect('usuario.tem_multa', 'estado_bool')
+        .getOne();
+      if(!busca_Usuario) // verifica se ocorreu algum erro na operação
+        throw new Error('Exemplar não encontrado!');
+
+      // se usuario possuir uma multa, isso consta no sistema e ele nao pode fazer emprestimos
+      if (busca_Usuario.tem_multa.id == 1) 
+      {
+        console.log('Usuario possui multa e nao pode realizar emprestimo!');
+        throw new Error('Usuario possui multa e nao pode realizar emprestimo!');
+      }
 
       // verifica se quantidade de exemplares é menor que 5 | 5 é a quantidade crítica
       // não pode deixar faltar exemplares de um livro e o limite estabelecido foi 5

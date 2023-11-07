@@ -41,8 +41,6 @@ class MultaService
 
       data = new Date(data);
       const data_hoje: Date = data.toISOString().split('T')[0];
-
-      console.log(data_hoje, data_limite);
       
       if (data_hoje < data_limite || livro_devolvido == 1) // prazo para entrega não foi atingido
       {
@@ -53,12 +51,12 @@ class MultaService
 
       if (data_hoje > data_limite)
       {
-        console.log('Há multa');
+        // console.log('Há multa');
         // usuário não devolveu livro e pagará multa
         // verifica se empréstimo já tem multa
         if (busca_Emprestimo1.tem_multa.id == 1) // se Multa existir, então envia exceção
         {
-          console.log('Multa já existe no sistema!');
+          // console.log('Multa já existe no sistema!');
           return;
         }
           
@@ -96,7 +94,7 @@ class MultaService
           throw new Error('Operação não pode ser realizada!');
       }
 
-      console.log('Não há multa');
+      // console.log('Não há multa');
       return 'Não há multa';
     }
     catch (e: any) 
@@ -124,7 +122,7 @@ class MultaService
 
       if (busca_Multa.multa_paga.id == 1) // multa paga, não atualizamos o valor da multa
       {
-        console.log('Multa foi paga!');
+        // console.log('Multa foi paga!');
         return 'Multa foi paga!';
       }
 
