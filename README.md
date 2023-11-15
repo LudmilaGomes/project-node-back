@@ -1,2 +1,2 @@
 # Projeto | Biblioteca Virtual
-Repositório usado para construir e dar seguimento ao desenvolvimento do sistema de biblioteca virtual. O projeto completo pode ser visto [aqui](https://github.com/LudmilaGomes/Projeto-Banco-de-Dados).
+Repository used to build and continue the development of the virtual library system. The complete project can be seen [here](https://github.com/LudmilaGomes/Projeto-Banco-de-Dados).
